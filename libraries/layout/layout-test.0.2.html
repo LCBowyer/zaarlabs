@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/libraries/css/scratch.0.0.1.css">
+	<style>
+		.container {
+			display: grid;
+			grid-template-columns: 200px 1fr;
+			grid-template-rows: 1fr;
+
+			grid-template-areas: "Nav Content ";
+
+			grid-column-gap: 5px;
+			grid-row-gap: 5px;
+			height: 100%;
+		}
+		
+
+		.nav {
+		  background-color: red;
+		  grid-area:  Nav;
+		  height: 50px;
+		}
+
+		.content {
+		  background-color: blue;
+		  grid-area:  Content;
+		  
+		}
+
+
+		.content {
+			display: grid;
+			grid-auto-flow: row ;
+			grid-template-columns: 1fr 1fr 1fr;
+
+			overflow-y: scroll;
+			overflow-x: hidden;
+		}
+
+		.item {
+			background-color: pink;
+		}
+
+		.item .img {
+			width:  100%;
+			height:  350px;
+			border:  1px solid red;
+		}
+	</style>
+	</head>
+<body>
+
+
+
+<div class="container">
+  <div class="nav">Nav Here</div>
+  <div class="content">
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  		Hello
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  		Hello<br />Hello
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  	<div class="item">
+  		<div class="img">Image</div>
+  	</div>
+  </div>
+</div>
+
+</body>
+</html>
