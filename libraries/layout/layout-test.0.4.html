@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<link rel="stylesheet" type="text/css" href="/libraries/css/scratch.0.0.1.css">
+	<style>
+		.container {
+			display: grid;
+			grid-template-columns: 200px 1fr;
+
+			grid-template-areas: "Nav Content";
+			height:  100vh;
+
+		}
+		
+
+		.nav {
+		  background-color: red;
+		  grid-area:  Nav;
+		  grid-template-rows: 1fr;
+		}
+
+		.content {
+			background-color: blue;
+			grid-area:  Content;
+			grid-column-gap: 5px;
+			grid-row-gap: 35px;
+		  
+		}
+
+
+		.content {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			overflow-x: auto;
+
+		}
+
+		.item {
+			background-color: pink;
+			height:  min-content;
+
+			display: grid;
+			grid-template-columns: 1fr min-content 1fr;
+			grid-template-areas: ". Image . "
+									". Title . "
+									". Description . ";
+		}
+
+		
+
+		.item .img {
+			grid-area:  Image;
+			justify-self: center;
+		}
+
+		.item .title {
+			grid-area:  Title;
+
+		}
+
+		.item .description {
+			grid-area:  Description;
+
+		}
+
+	</style>
+	</head>
+<body>
+
+
+
+<div class="container">
+  <div class="nav">Nav Here</div>
+  <div class="content">
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	<div class="item">
+  		<div class="img"><img src="/libraries/images/paul.jpg"></div>
+  		<div class="title">Title</div>
+  		<div class="description">Description</div>
+  	</div>
+  	
+  </div>
+</div>
+
+</body>
+</html>
