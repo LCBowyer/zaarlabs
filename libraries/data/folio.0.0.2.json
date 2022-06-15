@@ -1,0 +1,136 @@
+{
+   "navigation":[
+      {
+         "label":"Artwork",
+         "submenu":[
+            {
+               "label":"Watercolours",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "watercolours_1",
+                  "watercolours_2"
+               ]
+            },
+            {
+               "label":"Charcoal",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "charcoal_1",
+                  "charcoal_2"
+               ]
+            },
+            {
+               "label":"Indian Ink",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "indiankink_1",
+                  "indiankink_1"
+               ]
+            },
+            {
+               "label":"Bleach and Ink",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "bleachandink_1",
+                  "bleachandink_2"
+               ]
+            }
+         ]
+      },
+      {
+         "label":"Pet Projects",
+         "submenu":[
+            {
+               "label":"Mister and Misfit",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "mam_1",
+                  "mam_2"
+               ]
+            },
+            {
+               "label":"Mardy Parker",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "mp_1",
+                  "mp_2"
+               ]
+            },
+            {
+               "label":"GPS Watch",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "GPS_1",
+                  "GPS_2"
+               ]
+            },
+            {
+               "label":"Drum Machine",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "drum_1",
+                  "drum_2"
+               ]
+            }
+         ]
+      },
+      {
+         "label":"Me",
+         "submenu":[
+            {
+               "label":"Getting to know me",
+               "template":"getting_to_know_me.html"
+            },
+            {
+               "label":"Contact Me",
+               "template":"contact.html"
+            },
+            {
+               "label":"CV",
+               "template":"CV.html"
+            }
+         ]
+      }
+   ],
+   "projects":{
+      "paulmccartney":{
+         "title":"Paul McCartney",
+         "subtitle":"Abbey Road",
+         "short_description":"d sd fds ds fds fds fsd f",
+         "long_description":"dfsdf sdf sdf sdf sdf sdf ",
+         "image":{
+            "small":"xxx.png",
+            "medium":"xxx.png",
+            "large":"xxx.png",
+            "extralarge":"xxx.png"
+         },
+         "template":"project-gallery.html",
+         "gallery":[
+            {
+               "title":"Paul McCartney",
+               "subtitle":"Final Piece",
+               "short_description":"d sd fds ds fds fds fsd f",
+               "long_description":"dfsdf sdf sdf sdf sdf sdf ",
+               "image":{
+                  "small":"xxx.png",
+                  "medium":"xxx.png",
+                  "large":"xxx.png",
+                  "extralarge":"xxx.png"
+               }
+            },
+            {
+               "title":"Paul McCartney",
+               "subtitle":"Zoom",
+               "short_description":"d sd fds ds fds fds fsd f",
+               "long_description":"dfsdf sdf sdf sdf sdf sdf ",
+               "image":{
+                  "small":"xxx.png",
+                  "medium":"xxx.png",
+                  "large":"xxx.png",
+                  "extralarge":"xxx.png"
+               }
+            }
+         ]
+      }
+   }
+}

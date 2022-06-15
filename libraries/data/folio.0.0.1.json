@@ -1,0 +1,51 @@
+{
+	"projetcs": {
+		"artwork_1": {
+			"title": "Paul",
+			"description_short": "Description goes here",	
+			"description_long": "Description goes here, Description goes here, Description goes here",
+			"image": [{
+				"small": "XXX.jpg",
+				"medium": "XXX.jpg",
+				"large": "XXX.jpg",
+				"massive": "XXX.jpg",
+			}]
+		},
+		"paul_1": {
+			"title": "Paul",
+			"description_short": "Description goes here",	
+			"description_long": "Description goes here, Description goes here, Description goes here",
+			"image": [{
+				"small": "XXX.jpg",
+				"medium": "XXX.jpg",
+				"large": "XXX.jpg",
+				"massive": "XXX.jpg",
+			}]
+		}
+	},
+	"navigation": [{
+		"label": "Artwork",
+		"tile": "artwork_1",
+		"menu": [{
+			"label": "Watercolours",
+			"tile": "water_1",
+			"menu": [{
+				"label": "Paul",
+				"tile": "paul_1",
+				"gallery": ["paul_1", "paul_2", "paul_3"]
+			},{
+				"label": "Two Birds",
+				"tile": "birds_1",
+				"gallery": ["birds_1", "birds_2", "birds_3"]
+			}]
+		}]
+	},
+{
+		"label": "Me",
+		"tile": "artwork_1",
+		"menu": [{
+			"label": "About Me",
+			"tile": "water_1",
+		}]
+	}]
+}

@@ -5,11 +5,11 @@
 	<style>
 		.container {
 			display: grid;
-			grid-template-columns: 200px 1fr;
+			grid-template-columns: 30px 350px minmax(1fr, 1200px) 30px;
 
-			grid-template-areas: "Nav Content";
+			grid-template-areas: ". Nav Content .";
 			height:  100vh;
-
+			margin:  auto;
 		}
 		
 
@@ -22,8 +22,8 @@
 		.content {
 			background-color: blue;
 			grid-area:  Content;
-			grid-column-gap: 5px;
-			grid-row-gap: 35px;
+			grid-column-gap: 24px;
+			grid-row-gap: 24px;
 		  
 		}
 
@@ -39,17 +39,12 @@
 			background-color: pink;
 			height:  min-content;
 
-			display: grid;
-			grid-template-columns: 10px 1fr 10px;
-			grid-template-areas: ". Image . "
-									". Title . "
-									". Description . ";
+			
 		}
 
 		
 
 		.item .img {
-			grid-area:  Image;
 		}
 
 		.item .img img {
@@ -57,12 +52,10 @@
 		}
 
 		.item .title {
-			grid-area:  Title;
 
 		}
 
 		.item .description {
-			grid-area:  Description;
 
 		}
 

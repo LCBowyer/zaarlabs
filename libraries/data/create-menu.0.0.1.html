@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+		<head>
+				
+		</head>
+		<body>
+				
+				<div id="output">
+
+				</div>
+
+				<script>
+						var portfolio = {
+   "navigation":[
+      {
+         "label":"Artwork",
+         "submenu":[
+            {
+               "label":"Watercolours",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "paulmccartney",
+                  "paulmccartney"
+               ]
+            },
+            {
+               "label":"Charcoal",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "paulmccartney",
+                  "paulmccartney"
+               ]
+            },
+            {
+               "label":"Indian Ink",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "paulmccartney",
+                  "paulmccartney"
+               ]
+            },
+            {
+               "label":"Bleach and Ink",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "paulmccartney",
+                  "paulmccartney"
+               ]
+            }
+         ]
+      },
+      {
+         "label":"Pet Projects",
+         "submenu":[
+            {
+               "label":"Mister and Misfit",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "paulmccartney",
+                  "paulmccartney"
+               ]
+            },
+            {
+               "label":"Mardy Parker",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "mp_1",
+                  "mp_2"
+               ]
+            },
+            {
+               "label":"GPS Watch",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "paulmccartney",
+                  "paulmccartney"
+               ]
+            },
+            {
+               "label":"Drum Machine",
+               "template":"section-gallery.html",
+               "submenu":[
+                  "paulmccartney",
+                  "paulmccartney"
+               ]
+            }
+         ]
+      },
+      {
+         "label":"Me",
+         "submenu":[
+            {
+               "label":"Getting to know me",
+               "template":"getting_to_know_me.html"
+            },
+            {
+               "label":"Contact Me",
+               "template":"contact.html"
+            },
+            {
+               "label":"CV",
+               "template":"CV.html"
+            }
+         ]
+      }
+   ],
+   "projects":{
+      "paulmccartney":{
+         "title":"Paul McCartney",
+         "subtitle":"Abbey Road",
+         "short_description":"d sd fds ds fds fds fsd f",
+         "long_description":"dfsdf sdf sdf sdf sdf sdf ",
+         "image":{
+            "small":"xxx.png",
+            "medium":"xxx.png",
+            "large":"xxx.png",
+            "extralarge":"xxx.png"
+         },
+         "template":"project-gallery.html",
+         "gallery":[
+            {
+               "title":"Paul McCartney",
+               "subtitle":"Final Piece",
+               "short_description":"d sd fds ds fds fds fsd f",
+               "long_description":"dfsdf sdf sdf sdf sdf sdf ",
+               "image":{
+                  "small":"xxx.png",
+                  "medium":"xxx.png",
+                  "large":"xxx.png",
+                  "extralarge":"xxx.png"
+               }
+            },
+            {
+               "title":"Paul McCartney",
+               "subtitle":"Zoom",
+               "short_description":"d sd fds ds fds fds fsd f",
+               "long_description":"dfsdf sdf sdf sdf sdf sdf ",
+               "image":{
+                  "small":"xxx.png",
+                  "medium":"xxx.png",
+                  "large":"xxx.png",
+                  "extralarge":"xxx.png"
+               }
+            }
+         ]
+      }
+   }
+};
+
+				function createButton(label, callback){
+					var button = document.createElement("button"),
+						label = document.createTextNode(label);
+
+					button.appendChild(label);
+					button.onclick = function(){alert("hey")};
+
+					return button;
+				}
+
+			function getProject(project_id){
+				project = portfolio.projects[project_id];
+
+				if(project){
+					console.log("Found project", project.title);
+					document.getElementById("output").innerHTML += project.title + "<br>";
+				}
+			}
+
+				document.getElementById("output").innerHTML = "";
+
+			for(n = 0; n < portfolio.navigation.length; n++){
+					
+					var category = portfolio.navigation[n];
+					console.log(category.label);
+					document.getElementById("output").appendChild(createButton(category.label, function(){alert("clicked");}));
+
+					if(category.submenu){
+						for(x = 0; x < category.submenu.length; x++){
+								var section = category.submenu[x];
+								console.log(section.label);
+								document.getElementById("output").innerHTML += section.label + "<br>";
+
+								if(section.submenu){
+									for(y = 0; y < section.submenu.length; y ++){
+										var project_id = section.submenu[y];
+										getProject(project_id);
+									}
+								}
+						}
+					}
+			} 
+
+			
+
+
+				</script>
+		</body>
+</html>
