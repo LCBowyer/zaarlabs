@@ -109,6 +109,22 @@
 		this.nodes = nodes;
 	};
 
+			ZChain.prototype.html = function (html) {
+
+				var result = null;
+
+				if(!html){
+					result = this.nodes[0].innerHTML;
+
+				} else {
+					for(var i=0; i < this.nodes.length; i ++ ){
+						this.nodes[i].innerHTML = html;
+					}
+				}
+
+				return result;
+			};
+
 			ZChain.prototype.addClass = function (className) {
 
 				for(var i=0; i < this.nodes.length; i ++ ){
