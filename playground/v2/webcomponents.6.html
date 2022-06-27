@@ -1,0 +1,1771 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@700;900&family=Noto+Serif:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+	<style>
+		/* Theme VARs can be used across WebComponents */
+		:root {
+			
+			--main-bg-color: green;
+
+			--heading-font-family:  'Noto Sans', sans-serif;
+			--heading-font-weight:  900;
+			--heading-color:  #464644;
+
+			--subheading-font-family:  'Noto Sans', sans-serif;
+			--subheading-font-weight:  700;
+			--subheading-color:  #575754;
+
+			--copy-font-family:  'Noto Serif', serif;
+			--copy-font-weight:  400;
+			--copy-bold-font-weight:  700;
+			--copy-color:  #575754;
+
+			--accent-color:  #fb650a;
+			--accent-contrast:  #f0eeef;
+
+			--background-color:  #f0eeef;
+
+			--track-full:  24px;
+			--track-half:  12px;
+		}
+
+		font-family: 'Noto Sans', sans-serif;
+font-family: 'Noto Serif', serif;
+	</style>
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZNAV -->
+	<!-- ========================================= -->
+		<style id="zNavStyle">
+			h1 {
+				color: var(--heading-color);
+				font-family: var(--heading-font-family);
+				font-weight: var(--heading-font-weight);
+				text-transform: uppercase;
+				font-size: 2.4rem;
+				line-height: 36px;
+			}
+
+			ol {
+				list-style: none;
+				padding-left: 24px;
+			}
+
+			ol[data-level="1"],
+			ol[data-level="2"] {
+				list-style: none;
+				padding: 0;
+			}
+
+			ol[data-level="1"] > li {
+				list-style: none;
+				padding-bottom: 24px;
+			}
+
+			ol[data-level="1"] > li > a {
+				pointer-events: none;
+			}
+
+			ol[data-level="1"] > li > button {
+				display: none;
+			}
+
+			li {
+				position: relative;
+			}
+
+			a {
+				color: var(--copy-color);
+				font-family: var(--copy-font-family);
+				font-weight: var(--copy-font-weight);
+				font-size: 1rem;
+				text-decoration: none;
+			    display: inline-block;
+			    padding: 3px;
+			    line-height: 17px;
+}
+			
+
+			ol[data-level="1"] > li > a {
+				color: var(--heading-color);
+				font-family: var(--heading-font-family);
+				font-weight: var(--heading-font-weight);
+				text-transform: uppercase;
+				font-size: 1.2rem;
+			}
+
+			
+
+			
+
+			a.selected {
+				background-color: var(--accent-color);
+				color: var(--accent-contrast);
+			}
+
+			a.selected-path {
+			}
+
+			button {
+				display: none;
+				position: absolute;
+				right: 0;
+			}
+
+			li[data-submenu="true"] > button {
+				display: inline-block;
+			}
+
+			li.submenu-closed > ol {
+				display: none;
+			}
+		</style>
+		<template id="zNavTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+
+				<nav id="rootNav">
+					<li data-submenu="{{hasSubmenu}}">
+						<a href="{{url}}" page="{{page}}">{{label}}</a>
+						<button type="button">Toggle</button>
+						{{submenu}}
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zNav extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data) {
+					let navTemplate = this.navTemplate;
+
+					let buildTree = (nav, level) => {
+						level++;
+
+						let renderedNav = "";
+						let	submenu = "";
+						let hasSubmenu = false;
+
+						nav.forEach((node) => {
+							if(node.submenu){
+								submenu = buildTree(node.submenu, level);
+								hasSubmenu = true;
+							}
+
+							renderedNav += navTemplate
+							.replace(/{{label}}/g, node.label)
+							.replace(/{{url}}/g, node.url)
+							.replace(/{{page}}/g, node.page)
+							.replace(/{{hasSubmenu}}/g, hasSubmenu)
+							.replace(/{{submenu}}/g, submenu);
+
+						});
+
+						return "<ol data-level=" + level + ">" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML.replace(/{{heading}}/g, data.heading);
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildTree(data.tree, 0);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zNavStyle").innerHTML;
+					let mainTemplate = document.getElementById("zNavTemplate");
+
+					this.navTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+						tagName = element.tagName.toLowerCase();
+
+						let traceRoot = (element, className) => {
+							element.classList.add(className);
+							let parentLI = element.parentNode.parentNode.closest("li"),
+								parentLink = (parentLI) ? parentLI.querySelector("a") : null;
+
+							if(parentLink){
+								traceRoot(parentLink, "selected-path")
+							}
+						}
+
+						switch(tagName){
+							case "a":
+								event.preventDefault();
+
+								let href = element.getAttribute("href");
+								let title = element.innerHTML;
+								let page = element.getAttribute("page");
+								
+								navigate(href, title, page);
+
+								
+
+								let previouslySelected = this.shadowRoot.querySelectorAll(".selected, .selected-path");
+
+								Array.from(previouslySelected).forEach((element) => {
+									element.classList.remove("selected", "selected-path");
+								})
+
+								traceRoot(element, "selected");
+								
+								break;
+							case "button":
+								element.parentNode.classList.toggle("submenu-closed")
+
+						}
+					})
+
+
+
+				};
+
+			}
+
+			customElements.define("z-nav", zNav);
+		</script>
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZFOOTER -->
+	<!-- ========================================= -->
+		<style id="zFooterStyle">
+			#wrapper {
+				background-color: var(--main-bg-color);
+			}
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+		</style>
+		<template id="zFooterTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+
+				<nav id="rootNav">
+					<li>
+						<a href="{{url}}" data-page="{{page}}">{{label}}</a>
+						<p>{{paragraph}}</p>
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zFooter extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data) {
+					let repeatTemplate = this.repeatTemplate,
+						buildFooter = (items) => {
+						let renderedNav = "";
+
+						items.forEach((item) => {
+							renderedNav += repeatTemplate
+												.replace(/{{label}}/g, item.label)
+												.replace(/{{url}}/g, item.url)
+												.replace(/{{page}}/g, item.page)
+												.replace(/{{paragraph}}/g, (item.paragraph || ""))
+
+						});
+
+						return "<ol>" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML.replace(/{{heading}}/g, data.heading);
+
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildFooter(data.items);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zFooterStyle").innerHTML;
+					let mainTemplate = document.getElementById("zFooterTemplate");
+
+					this.repeatTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+						tagName = element.tagName.toLowerCase();
+
+						if(tagName == "a"){
+							event.preventDefault();
+
+							let href = element.getAttribute("href");
+							let title = element.innerHTML;
+							
+							navigate(href, title);
+
+						}
+					})
+
+				};
+
+			}
+
+			customElements.define("z-footer", zFooter);
+		</script>
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZIMAGE -->
+	<!-- ========================================= -->
+		<style id="zImageStyle">
+			
+
+			
+			p:empty {
+				display: none;
+			}
+
+			img {
+				width: 100%;
+				box-shadow:  rgb(50 50 50 / 23%) -3px 2px 9px 0px;
+				grid-area:  Image;
+			}
+
+			hgroup {
+				grid-area:  Heading;
+			}
+			h1 {
+				color: var(--heading-color);
+				font-family: var(--heading-font-family);
+				font-weight: var(--heading-font-weight);
+				text-transform: uppercase;
+				font-size: 1rem;
+				margin:  0;
+			}
+
+			h2 {
+				color: var(--subheading-color);
+				font-family: var(--subheading-font-family);
+				font-weight: var(--subheading-font-weight);
+				font-size: 0.9rem;
+				margin:  0;
+			}
+
+			#wrapper {
+			    position: relative;
+			    display: grid;
+			    grid-template-columns: 24px 1fr 24px;
+			    grid-template-rows: min-content;
+			    grid-template-areas: 	"Image		Image		Image"
+			    						".		Heading		.";
+			    grid-row-gap: var(--track-half);
+			}
+
+			#wrapper:hover {
+				position: relative;
+			}
+
+			a {
+				position: absolute;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    height: 100%;
+			    text-indent: -50000px;
+			}
+		</style>
+		<template id="zImageTemplate">
+			<div id="wrapper">
+				<img src="{{src}}" />
+				<hgroup>
+					<h1>{{heading}}</h1>
+					<h2>{{subheading}}</h2>
+				</hgroup>
+				<a href="{{href}}" page="{{page}}">{{zoom}}</a>
+			</div>
+		</template>
+		<script>
+			class zImage extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zImageStyle").innerHTML;
+					let mainTemplate = document.getElementById("zImageTemplate");
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.getAttributeNames().forEach((attribute) => {
+						let rege = new RegExp("{{"+attribute+"}}", "g");
+						preHTML = preHTML.replace(rege, this.getAttribute(attribute))
+					});
+
+					this.shadowRoot.innerHTML += preHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+							tagName = element.tagName.toLowerCase();
+
+						if(tagName == "a"){
+							event.preventDefault();
+
+							let href = element.getAttribute("href"),
+								type = this.getAttribute("type"),
+								page = this.getAttribute("page"),
+								heading = this.getAttribute("heading"),
+								subheading = this.getAttribute("subheading"),
+								title = element.innerHTML;
+
+							switch(type){
+								case "link":
+									navigate(href, title, page);
+									break;
+								case "zoom":
+									fullscreen(href, heading, subheading);
+								break;
+								default:
+									break;
+							}
+
+
+						}
+					})
+
+				};
+				
+			}
+
+			customElements.define("z-image", zImage);
+		</script>
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZFULLSCREEN -->
+	<!-- ========================================= -->
+		<style id="zFullscreenStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+			#wrapper {
+				background-color: purple;
+				display: block;
+				height: 100%;
+			} 
+		</style>
+		<template id="zFullscreenTemplate">
+			<div id="wrapper">
+				<img src="{{src}}" />
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+				<button type="button">Close</button>
+			</div>
+		</template>
+		<script>
+			class zFullscreen extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zFullscreenStyle").innerHTML;
+					let mainTemplate = document.getElementById("zFullscreenTemplate");
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.getAttributeNames().forEach((attribute) => {
+						let rege = new RegExp("{{"+attribute+"}}", "g");
+						preHTML = preHTML.replace(rege, this.getAttribute(attribute))
+					});
+
+					this.shadowRoot.innerHTML += preHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+							tagName = element.tagName.toLowerCase();
+
+						switch(tagName){
+							case "a":
+								event.preventDefault();
+
+								let href = element.getAttribute("href");
+
+								console.log("Slide");
+								break;
+							case "button":
+								console.log("Close fullscreen");
+								closeFullscreen();
+								break;
+						}
+
+						
+					})
+
+				};
+				
+			}
+
+			customElements.define("z-fullscreen", zFullscreen);
+		</script>
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZPROJECT -->
+	<!-- ========================================= -->
+		<style id="zProjectStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+			#wrapper {
+			    display: grid;
+			    grid-template-columns: 3fr 2fr;
+			    grid-template-rows: repeat(5, min-content);
+
+			    grid-template-areas: 	"Image		Hgroup"
+			    						"Image		Description"
+			    						"Image		Tags"
+			    						"Image		."
+			    						"Gallery	Gallery";
+			    grid-column-gap: var(--track-full);
+			    grid-row-gap: var(--track-full);
+			}
+
+			hgroup {
+				grid-area:  Hgroup;
+
+			}
+			h1 {
+				margin:  0;
+			}
+			h2 {
+				margin:  0;
+			}
+			z-image {
+				grid-area:  Image;
+			}
+			#description {
+				grid-area:  Description;
+			}
+			z-tags {
+				grid-area:  Tags;
+			}
+			z-gallery {
+				grid-area:  Gallery;
+			}
+		</style>
+		<template id="zProjectTemplate">
+			<div id="wrapper">
+				<hgroup>
+					<h1>{{heading}}</h1>
+					<h2>{{subheading}}</h2>
+				</hgroup>
+				<z-image id="image1" heading="Paul" subheading="Watercolour" src="/libraries/images/paul.jpg" href="/zoom/images/paul.jpg" type="zoom"></z-image>
+				<div id="description">
+					<li>
+						<h1>{{description.heading}}</h1>
+						<h2>{{description.subheading}}</h2>
+						<p>{{description.paragraph}}</p>
+					</li>
+				</div>
+
+				<z-tags id="tags"></z-tags>
+
+				<z-gallery id="gallery" heading="{{galleryheading}}" subheading="{{gallerysubheading}}"></z-gallery>
+
+				
+			</div>
+		</template>
+		<script>
+			class zProject extends HTMLElement {
+
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+
+
+				build(data){
+					let descriptionTemplate = this.descriptionTemplate;
+
+					function buildMenu(descriptions){
+						let renderedDescription = "";
+
+						descriptions.forEach((description) => {
+							renderedDescription += descriptionTemplate
+							.replace(/{{description.heading}}/g, description.heading)
+							.replace(/{{description.subheading}}/g, description.subheading)
+							.replace(/{{description.paragraph}}/g, description.paragraph)
+
+						});
+
+						return "<ol>" + renderedDescription + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{banner}}/g, data.banner)
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+
+					this.shadowRoot.querySelector("#description").innerHTML = buildMenu(data.descriptions);
+
+					// BUILD GALLERY
+					const myGallery = this.shadowRoot.getElementById("gallery");
+
+					myGallery.setAttribute("heading", "tester");
+					myGallery.setAttribute("subheading", "sub tester");
+					myGallery.buildTree(data.zGallery);
+
+					// BUILD TAGS
+					const myTags = this.shadowRoot.getElementById("tags");
+					myTags.build(data.zTags)
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zProjectStyle").innerHTML;
+					let mainTemplate = document.getElementById("zProjectTemplate");
+					this.descriptionTemplate = mainTemplate.content.querySelector("#description").innerHTML;
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+				};
+
+
+			}
+
+			customElements.define("z-project", zProject);
+		</script>
+
+
+
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZCATEGORY -->
+	<!-- ========================================= -->
+		<style id="zCategoryStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+
+			#wrapper > h1,
+			#wrapper > h2 {
+				display: none;
+			}
+		</style>
+		<template id="zCategoryTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+
+				<z-gallery id="gallery"></z-gallery>
+			</div>
+		</template>
+		<script>
+			class zCategory extends HTMLElement {
+
+				
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data){
+					let descriptionTemplate = this.descriptionTemplate;
+
+					function buildMenu(descriptions){
+						let renderedDescription = "";
+
+						descriptions.forEach((data) => {
+							renderedDescription += descriptionTemplate
+							.replace(/{{description.heading}}/g, data.heading)
+							.replace(/{{description.subheading}}/g, data.subheading)
+							.replace(/{{description.paragraph}}/g, data.paragraph)
+
+						});
+
+						return "<ol>" + renderedDescription + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+
+					// BUILD GALLERY
+					const myGallery = this.shadowRoot.getElementById("gallery");
+					
+					myGallery.buildTree(data.zGallery);
+					
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zCategoryStyle").innerHTML;
+					let mainTemplate = document.getElementById("zCategoryTemplate");
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.getAttributeNames().forEach((attribute) => {
+						let rege = new RegExp("{{"+attribute+"}}", "g");
+						preHTML = preHTML.replace(rege, this.getAttribute(attribute))
+					});
+
+					this.shadowRoot.innerHTML += preHTML;
+
+				};
+
+				disconnectedCallback() {
+				}
+
+				adoptedCallback() {
+				}
+				attributeChangedCallback(name, oldValue, newValue) {
+				}
+
+			}
+
+			customElements.define("z-category", zCategory);
+		</script>
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZCONTACT -->
+	<!-- ========================================= -->
+		<style id="zContactStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+		</style>
+		<template id="zContactTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+				<z-image id="image1" heading="" subheading="" src="{{banner}}" href="" type="zoom"></z-image>
+
+				<div id="description">
+					<li>
+						<h1>{{description.heading}}</h1>
+						<h2>{{description.subheading}}</h2>
+						<p>{{description.paragraph}}</p>
+					</li>
+				</div>
+			</div>
+		</template>
+		<script>
+			class zContact extends HTMLElement {
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data){
+					let descriptionTemplate = this.descriptionTemplate;
+
+					function buildMenu(descriptions){
+						let renderedDescription = "";
+
+						descriptions.forEach((description) => {
+							renderedDescription += descriptionTemplate
+							.replace(/{{description.heading}}/g, description.heading)
+							.replace(/{{description.subheading}}/g, description.subheading)
+							.replace(/{{description.paragraph}}/g, description.paragraph)
+
+						});
+
+						return "<ol>" + renderedDescription + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{banner}}/g, data.banner)
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+					this.shadowRoot.querySelector("#description").innerHTML = buildMenu(data.descriptions);
+					
+
+
+
+					
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zContactStyle").innerHTML;
+					let mainTemplate = document.getElementById("zContactTemplate");
+
+					this.descriptionTemplate = mainTemplate.content.querySelector("#description").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.shadowRoot.innerHTML += preHTML;
+
+				};
+
+
+			}
+
+			customElements.define("z-contact", zContact);
+		</script>
+
+
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZGALLERY -->
+	<!-- ========================================= -->
+		<style id="zGalleryStyle">
+			
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+			#wrapper > h1,
+			#wrapper > h2 {
+				display: none;
+			}
+
+			ol {
+				list-style: none;
+				padding: 0;
+			}
+
+			#rootNav > ol {
+				display: grid;
+				grid-template-columns: repeat(2, 1fr);
+				grid-column-gap: var(--track-full);
+			}
+
+			
+
+		</style>
+		<template id="zGalleryTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+				<nav id="rootNav">
+					<li>
+						<z-image id="image1" heading="{{heading}}" subheading="{{subheading}}" src="{{thumb}}" href="{{url}}" page="{{page}}" type="{{type}}"></z-image>
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zGallery extends HTMLElement {
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				buildTree(data) {
+					let navTemplate = this.navTemplate;
+
+					function buildMenu(items){
+						let renderedNav = "";
+
+						items.forEach((item) => {
+							renderedNav += navTemplate
+							.replace(/{{heading}}/g, item.heading)
+							.replace(/{{subheading}}/g, item.subheading)
+							.replace(/{{thumb}}/g, item.thumb)
+							.replace(/{{url}}/g, item.url)
+							.replace(/{{page}}/g, (item.page || false))
+							.replace(/{{type}}/g, item.type);
+
+						});
+
+						return "<ol>" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildMenu(data.items);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zGalleryStyle").innerHTML;
+					let mainTemplate = document.getElementById("zGalleryTemplate");
+
+					this.navTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+				};
+
+			}
+
+			customElements.define("z-gallery", zGallery);
+		</script>
+
+
+
+
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZTAGS -->
+	<!-- ========================================= -->
+		<style id="zTagsStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+		</style>
+		<template id="zTagsTemplate">
+			<div id="wrapper">
+				<h1>{{header}}</h1>
+				<nav id="rootNav">
+					<li>
+						<a href="/tags/{{tag}}" tag="{{tag}}">{{tag}}</a>
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zTags extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data) {
+					let navTemplate = this.navTemplate;
+
+					function buildMenu(nav){
+						let renderedNav = "";
+
+						nav.forEach((tag) => {
+							renderedNav += navTemplate
+							.replace(/{{tag}}/g, tag)
+						});
+
+						return "<ol>" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML.replace(/{{header}}/g, (data.heading || ""));
+
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildMenu(data.tags);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zTagsStyle").innerHTML;
+					let mainTemplate = document.getElementById("zTagsTemplate");
+
+					this.navTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+						tagName = element.tagName.toLowerCase();
+
+						if(tagName == "a"){
+							event.preventDefault();
+
+							let href = element.getAttribute("href");
+							let title = element.innerHTML;
+							let tag = element.getAttribute("tag");
+							
+							displayTags(href, title, tag);
+
+
+						}
+					})
+
+				};
+
+
+			}
+
+			customElements.define("z-tags", zTags);
+		</script>
+
+		<style>
+			
+			html {
+				height:  100vh;
+				font-size:  16px;
+			}
+			body {
+				background: var(--background-color);
+				height: 100%;
+			}
+
+			html,
+			body,
+			menu {
+				margin: 0;
+			}
+
+			html,
+			body,
+			div,
+			main,
+			button {
+				box-sizing: border-box;
+			}
+
+			body {
+				display: grid;
+				grid-template-columns: 48px 200px 1fr 48px;
+				grid-template-rows: 48px min-content min-content;
+				grid-template-areas: 	". . 		. 		."
+										". Header 	Main 	."
+										". Header 	Footer 	.";
+				grid-column-gap: var(--track-full);
+				max-width: 1200px;
+				margin:  0 auto;
+			}
+
+			body.fullscreen {
+				overflow: hidden;
+			}
+
+			header {
+				grid-area: Header;
+
+				display: grid;
+			}
+
+			main {
+				grid-area: Main;
+
+				display: grid;
+				opacity: 0;
+			    transition: opacity 0.5s;
+			}
+
+			main.fade-in {
+				opacity: 1;
+			}
+
+			footer {
+				grid-area: Footer;
+
+				display: grid;
+			}
+
+			z-fullscreen {
+			    background: yellow;
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    width: 100vw;
+			    height: 100vh;
+			}
+
+		</style>
+
+</head>
+
+<body>
+
+	<header>
+		<z-nav id="siteNav"></z-nav>
+	</header>
+
+
+	<main id="mainContent">
+		Main Here
+	</main>
+
+	<footer>
+		<z-footer id="footer1"></z-footer>
+		<z-footer id="footer2"></z-footer>
+		<z-footer id="footer3"></z-footer>
+		<z-footer id="footer4"></z-footer>
+	</footer>
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => EXAMPLES -->
+	<!-- ========================================= 
+	
+		<z-image id="image1" heading="Paul" subheading="Watercolour" src="/libraries/images/paul.jpg" href="/zoom/images/paul.jpg" type="link"></z-image>
+
+		<z-tags id="mytags"></z-tags>
+		
+		<z-contact id="mycontact"></z-contact>
+	
+		<z-project id="myproject"></z-project>
+		
+		<z-gallery id="mygallery"></z-gallery>
+		
+		<z-category id="mycategory"></z-category>
+	
+		<z-nav id="mymenu"></z-nav>
+
+		<z-footer id="footernav1" heading="Footer One"></z-footer>
+
+	-->
+
+	<script>
+
+		
+			// URL MANAGEMENT
+			function displayTags(url, title, page) {
+				console.log("Display tags:", url, title, page);
+				console.log("Need to search through the content and retrieve a list of items that contain the selected TAG - check Array Functions");
+			}
+
+			function navigate(url, title, page){
+				history.pushState({}, title, url);
+
+				let data = content[page],
+					type = data.type,
+					output = document.getElementById("mainContent"),
+					webComponent = document.createElement(type);
+
+				output.classList.remove("fade-in");
+
+				output.replaceChildren(webComponent);
+
+				webComponent.build(data);
+				output.classList.add("fade-in");
+
+			}
+
+			function getContentFromURL(url){
+				let siteNav = menus.siteNav.tree;
+				let foundMatch;
+				let searchTree = (tree) => {
+					tree.forEach((node) => {
+						let nodeUrl = node.url;
+
+						if(nodeUrl == url){
+							foundMatch = node.page;
+
+						} else if(node.submenu && !foundMatch){
+							searchTree(node.submenu)
+						}
+					})
+				}
+
+				searchTree(siteNav);
+
+				let siteNavComponent = document.getElementById("siteNav"),
+					navLink = siteNavComponent.shadowRoot.querySelector("a[page='" + foundMatch + "']");
+
+				if(navLink){
+					navLink.click();
+				} else {
+					console.log("DISPLAY 404");
+				}
+
+			}
+
+			function closeFullscreen(){
+				let zFullscreen = document.getElementById("fullscreen");
+				zFullscreen.remove();
+
+				document.body.classList.remove("fullscreen");
+
+			}
+
+
+			function fullscreen(src, heading, subheading){
+				let zFullscreen = document.createElement("z-fullscreen");
+
+					zFullscreen.setAttribute("id", "fullscreen");
+					zFullscreen.setAttribute("heading", heading);
+					zFullscreen.setAttribute("subheading", subheading);
+					zFullscreen.setAttribute("src", src);
+
+					document.body.appendChild(zFullscreen);
+
+					zFullscreen.style.top = window.scrollY + "px";
+					document.body.classList.add("fullscreen");
+			}
+
+			window.addEventListener('popstate', (event) => {
+				console.log("POPSTATE: " + document.location + ", state: " + JSON.stringify(event.state));
+			});
+
+			window.addEventListener('load', (event) => {
+				getContentFromURL(window.location.pathname);
+			});
+
+			let menus = {
+				"footer1": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"footer2": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"footer3": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"footer4": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"siteNav": {
+					heading: "Lee Bowyer",
+					tree: [{
+						label: "Artwork",
+						url: "/artwork",
+						page: "artwork",
+						submenu: [{
+							label: "Watercolours",
+							url: "/artwork/watercolours",
+							page: "watercolours",
+							submenu: [{
+								label: "Paul",
+								url: "/artwork/watercolours/paul",
+								page: "paul",
+							},
+							{
+								label: "Two Birds",
+								url: "/artwork/watercolours/two-birds",
+								page: "twobirds",
+							},
+							{
+								label: "The Two of Us",
+								url: "/artwork/watercolours/the-two-of-us",
+								page: "ttou",
+							}]
+						},
+						{
+							label: "Indian Ink",
+							url: "/artwork/indianink",
+							page: "indianink",
+							submenu: [{
+								label: "Heart",
+								url: "/artwork/indianink/heart",
+								page: "heart",
+							},
+							{
+								label: "Richard",
+								url: "/artwork/indianink/richard",
+								page: "richard",
+							},
+							{
+								label: "Enchantress",
+								url: "/artwork/indianink/enchantress",
+								page: "enchantress",
+							}]
+						}]
+					},
+					{
+						label: "Projects",
+						url: "/projects",
+						page: "projects",
+						submenu: [{
+							label: "Mister &amp; Misfit",
+							url: "/projects/mister-and-misfit",
+							page: "misterandmisfit",
+						},
+						{
+							label: "Mardy Parker",
+							url: "/projects/mardy-parker",
+							page: "mardyparker",
+						},
+						{
+							label: "GPS Watch",
+							url: "/projects/mardy-parker",
+							page: "gpswatch",
+						}]
+					},
+					{
+						label: "Digital",
+						url: "/digital",
+						page: "digital",
+						submenu: [{
+							label: "Jahia DX8",
+							url: "/digital/jahia-dx8",
+							page: "jahiadx8",
+						},
+						{
+							label: "Sony",
+							url: "/digital/sony",
+							page: "sony",
+						},
+						{
+							label: "More",
+							url: "/digital/more",
+							page: "more",
+						}]
+					},
+					{
+						label: "Music",
+						url: "/music",
+						page: "music",
+						submenu: [{
+							label: "The Chapkas",
+							url: "/music/the-chapkas",
+							page: "thechapkas",
+						},
+						{
+							label: "Chasing Ships",
+							url: "/music/chasing-ships",
+							page: "chasingships",
+						}]
+					},
+					{
+						label: "Me",
+						url: "/me",
+						page: "me",
+						submenu: [{
+							label: "About",
+							url: "/me/about",
+							page: "aboutme",
+						},
+						{
+							label: "Contact",
+							url: "/me/contact",
+							page: "contactme",
+						},
+						{
+							label: "Curriculum Vitae",
+							url: "/me/curriculum-vitae",
+							page: "curriculumvitae",
+						}]
+					}] 
+				}
+			}
+
+
+				let content = {
+					"contactme": {
+						type: "z-contact",
+						heading:"Contact",
+						subheading:"Come and Say Hi",
+						banner: "/libraries/images/paul.jpg",
+						descriptions: [{
+							heading: "Title here",
+							subheading: "Subtitle",
+							paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+						},
+						{
+							heading: "Title here",
+							subheading: "Subtitle",
+							paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+						}]
+					},
+					"watercolours": {
+						type: "z-category",
+						heading: "Category Heading",
+						subheading: "Category Sub Heading",
+						zGallery: {
+							heading: "My Gallery",
+							subheading:" My subheading",
+							items: [{
+								heading: "Paul",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/artwork/projects/paul.html",
+								type:"link",
+								page: "paulproject"
+							},
+							{
+								heading: "Two Birds",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/artwork/projects/paul.html",
+								type:"link",
+								page: "twobirds"
+							}]
+						}
+					},
+					"paul": {
+						heading:"Project: Paul",
+						subheading:"Watercolours",
+						type: "z-project",
+						zTags: {
+							heading: "Tags",
+							tags: ["watercolour", "musician", "blue"]
+						},
+						descriptions: [{
+							heading: "Title here",
+							subheading: "Subtitle",
+							paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+						},
+						{
+							heading: "Title here",
+							subheading: "Subtitle",
+							paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+						}],
+						zGallery: {
+							heading: "My Gallery",
+							subheading:" My subheading",
+							items: [{
+								heading: "Paul",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							},
+							{
+								heading: "Two Birds",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							}]
+						}
+					}
+				}
+
+
+
+			// BUILD MAIN NAV
+			const siteNav = document.getElementById("siteNav");
+			siteNav.build(menus.siteNav);
+
+
+			// BUILD FOOTERS
+			const siteFooter1 = document.getElementById("footer1");
+			siteFooter1.build(menus.footer1);
+
+			const siteFooter2 = document.getElementById("footer2");
+			siteFooter2.build(menus.footer2);
+
+			const siteFooter3 = document.getElementById("footer3");
+			siteFooter3.build(menus.footer3);
+
+			const siteFooter4 = document.getElementById("footer4");
+			siteFooter4.build(menus.footer4);
+
+
+
+
+			// BUILD GALLERY
+			const myGallery = document.getElementById("mygallery");
+
+			if(myGallery){
+				const zGallery = {
+					heading: "My Gallery",
+					subheading:" My subheading",
+					items: [{
+						heading: "Paul",
+						subheading: "Watercolour",
+						thumb: "/libraries/images/paul.jpg",
+						url: "/artwork/projects/paul.html",
+						type:"zoom"
+					},
+					{
+						heading: "Two Birds",
+						subheading: "Watercolour",
+						thumb: "/libraries/images/paul.jpg",
+						url: "/artwork/projects/paul.html",
+						type:"link",
+						page: "twobirds"
+					}]
+				}
+
+				myGallery.buildTree(zGallery)
+			}
+
+			
+
+
+
+
+
+		
+
+
+
+
+
+
+		// BUILD FOOTER NAV
+		const myProject = document.getElementById("myproject");
+
+		if(myProject){
+			const myProjectData = {
+				heading:"Project: Paul",
+				subheading:"Watercolours",
+				zTags: {
+					heading: "Tags",
+					tags: ["watercolour", "musician", "blue"]
+				},
+				descriptions: [{
+					heading: "Title here",
+					subheading: "Subtitle",
+					paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+				},
+				{
+					heading: "Title here",
+					subheading: "Subtitle",
+					paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+				}],
+				zGallery: {
+					heading: "My Gallery",
+					subheading:" My subheading",
+					items: [{
+						heading: "Paul",
+						subheading: "Watercolour",
+						thumb: "/libraries/images/paul.jpg",
+						url: "/libraries/images/paul.jpg",
+						type:"zoom"
+					},
+					{
+						heading: "Two Birds",
+						subheading: "Watercolour",
+						thumb: "/libraries/images/paul.jpg",
+						url: "/libraries/images/paul.jpg",
+						type:"zoom"
+					}]
+				}
+			}
+
+			myProject.build(myProjectData)
+		}
+
+		
+
+
+
+
+// BUILD CONTACT
+const myContact = document.getElementById("mycontact");
+
+if(myContact){
+	const myContactData = {
+		heading:"Contact",
+		subheading:"Come and Say Hi",
+		banner: "/libraries/images/paul.jpg",
+		descriptions: [{
+			heading: "Title here",
+			subheading: "Subtitle",
+			paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+		},
+		{
+			heading: "Title here",
+			subheading: "Subtitle",
+			paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+		}]
+	}
+
+	myContact.build(myContactData)
+}
+
+
+
+
+
+
+		
+
+		
+
+
+
+
+
+
+		// BUILD FOOTER NAV
+		const myTags = document.getElementById("mytags");
+
+		if(myTags){
+			const zTags = {
+				heading: "My Tags",
+				tags: ["watercolour", "musician", "blue"]
+			}
+
+			myTags.build(zTags)
+		}
+
+
+		
+
+		
+
+
+
+
+
+
+
+
+	</script>
+
+</body>
+</html>

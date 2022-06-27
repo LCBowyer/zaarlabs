@@ -1,0 +1,9 @@
+# Allow mod_dir to serve index.html when requesting the directory
+DirectoryIndex index.html
+
+RewriteEngine On
+
+# Front-controller (exclude static resources)
+RewriteRule ^index\.html$ - [L]
+RewriteCond %{REQUEST_URI} !^/(playground|css|img|js|libraries|webcomponents)/
+RewriteRule . /playground/v2/webcomponents.6.html [L]

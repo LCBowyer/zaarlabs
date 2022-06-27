@@ -3,5 +3,6 @@ deployment:
   tasks:
     - export DEPLOYPATH=/home/oa0k98zxdd10/public_html/zaarlabs.com/
     - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp .htaccess $DEPLOYPATH
     - /bin/cp -R libraries $DEPLOYPATH
     - /bin/cp -R playground $DEPLOYPATH
