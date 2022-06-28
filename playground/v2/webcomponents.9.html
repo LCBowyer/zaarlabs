@@ -169,7 +169,7 @@
 				transform: rotate(-90deg);
 				position: fixed;
 				left: -100px;
-				bottom: 130px;
+				bottom: 165px;
 			}
 
 			h1 {
@@ -369,8 +369,12 @@
 				background: no-repeat center center;
 				background-size: contain;
 				background-image: url(/libraries/images/menu.svg);
-				/*text-indent:5000px;*/
+				font-size: 0;
 				border: none;
+			}
+
+			#toggle-menu:hover {
+				cursor: pointer;
 			}
 
 			.show-site-menu #toggle-menu {
@@ -383,7 +387,7 @@
 				left: 0;
 				width: 100vw;
 				height: 100vh;
-				background: red;
+				background: var(--surface-color--dark);
 				z-index: 1;
 				display: grid;
 				align-content: center;
@@ -511,6 +515,9 @@
 								let page = element.getAttribute("page");
 								
 								navigate(href, title, page);
+
+								this.shadowRoot.querySelector("#wrapper").classList.remove("show-site-menu")
+									document.body.classList.remove("show-site-menu");
 
 								
 
@@ -686,7 +693,7 @@
 			    position: relative;
 			    display: grid;
 			    grid-template-columns: var(--unit-4) 1fr var(--unit-4);
-			    grid-template-rows: min-content;
+			    grid-template-rows: min-content min-content;
 			    grid-template-areas: 	"Image		Image		Image"
 			    						".		Heading		.";
 			    grid-row-gap: var(--unit-4);
@@ -702,7 +709,7 @@
 			    left: 0;
 			    width: 100%;
 			    height: 100%;
-			    /*text-indent: -50000px;*/
+			    font-size: 0;
 			}
 		</script>
 		<template id="zImageTemplate">
@@ -878,16 +885,15 @@
 				display: none;
 			}
 			#wrapper {
-			    display: grid;
-			    grid-template-columns: 3fr 2fr;
-			    grid-template-rows: var(--unit-2) repeat(5, min-content);
+				display: grid;
+				grid-template-columns: 1fr;
+				grid-template-rows: min-content;
 
-			    grid-template-areas: 	"Image		."
-			    						"Image		Hgroup"
-			    						"Image		Description"
-			    						"Image		Tags"
-			    						"Image		."
-			    						"Gallery	Gallery";
+			    grid-template-areas: 	"Image"
+			    						"Hgroup"
+			    						"Description"
+			    						"Tags"
+			    						"Gallery";
 			    grid-column-gap: var(--unit-6);
 			    grid-row-gap: var(--unit-4);
 			}
@@ -957,7 +963,7 @@
 					<h1>{{heading}}</h1>
 					<h2>{{subheading}}</h2>
 				</hgroup>
-				<z-image id="image1" heading="Paul" subheading="Watercolour" src="/libraries/images/paul.jpg" href="/zoom/images/paul.jpg" type="zoom"></z-image>
+				<z-image id="image1" heading="{{banner.heading}}" subheading="{{banner.subheading}}" src="{{banner.thumb}}" href="{{banner.url}}" type="zoom"></z-image>
 				<div id="description">
 					<li>
 						<h3>{{description.heading}}</h3>
@@ -1004,6 +1010,10 @@
 					.replace(/{{banner}}/g, data.banner)
 					.replace(/{{heading}}/g, data.heading)
 					.replace(/{{subheading}}/g, data.subheading)
+					.replace(/{{banner.heading}}/g, data.banner.heading)
+					.replace(/{{banner.subheading}}/g, data.banner.subheading)
+					.replace(/{{banner.thumb}}/g, data.banner.thumb)
+					.replace(/{{banner.url}}/g, data.banner.url)
 
 
 					this.shadowRoot.querySelector("#description").innerHTML = buildMenu(data.descriptions);
@@ -1270,7 +1280,7 @@
 
 			#rootNav > ol {
 				display: grid;
-				grid-template-columns: repeat(3, 1fr);
+				grid-template-columns: repeat(2, 1fr);
 				grid-column-gap: var(--unit-6);
 				grid-row-gap: var(--unit-6);
 			}
@@ -1985,7 +1995,7 @@
 								thumb: "/libraries/images/paul.jpg",
 								url: "/artwork/projects/paul.html",
 								type:"link",
-								page: "paulproject"
+								page: "paul"
 							},
 							{
 								heading: "Two Birds",
@@ -2000,6 +2010,13 @@
 					"paul": {
 						heading:"Paul McCartney",
 						subheading:"Abbey Road Walk",
+						banner: {
+							heading: "",
+							subheading: "",
+							thumb: "/libraries/images/paul.jpg",
+							url: "/libraries/images/paul.jpg",
+							type:"zoom"
+							},
 						type: "z-project",
 						zTags: {
 							heading: "Tags",
@@ -2017,7 +2034,7 @@
 							heading: "My Gallery",
 							subheading:" My subheading",
 							items: [{
-								heading: "Paul",
+								heading: "Paul A",
 								subheading: "Watercolour",
 								thumb: "/libraries/images/paul.jpg",
 								url: "/libraries/images/paul.jpg",
