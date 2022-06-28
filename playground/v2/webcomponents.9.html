@@ -106,7 +106,7 @@
 
 			--nav-link-padding: calc(var(--magic-number) * 1px) ;
 
-			--base-font-size:  19px;
+			--base-font-size:  21px;
 
 			--font-size-site: 2rem;
 			--font-size-subsite: 2rem;
@@ -163,6 +163,15 @@
 				text-align:center;
 				grid-area: SiteLogo;
 			}
+
+			.show-site-menu hgroup {
+				z-index: 20;
+				transform: rotate(-90deg);
+				position: fixed;
+				left: -100px;
+				bottom: 130px;
+			}
+
 			h1 {
 				color: var(--on-surface-color--dark);
 				font-family: var(--header-font-family);
@@ -196,8 +205,8 @@
 				margin: 0;
 			}
 
-			ol[data-level="2"] {
-
+			ol[data-level="3"] {
+				display: none;
 			}
 
 			ol[data-level="1"] li {
@@ -210,8 +219,15 @@
 
 			ol[data-level="1"] > li {
 				list-style: none;
-				padding-bottom: 24px;
 			}
+
+			ol[data-level="1"] > li:nth-child(even) {
+			}
+
+			ol[data-level="1"] > li:nth-child(odd) {
+			}
+
+			
 
 			ol[data-level="1"] > li > a {
 				pointer-events: none;
@@ -284,7 +300,6 @@
 			}
 
 			li[data-submenu="true"] > button {
-				display: inline-block;
 			}
 
 			li.submenu-closed > ol {
@@ -311,17 +326,29 @@
 			#toggle-menu {
 				grid-area: MenuButton;
 				z-index: 20;
+				width: var(--unit-8);
+				height: var(--unit-8);
+				background: no-repeat center center;
+				background-size: contain;
+				background-image: url(/libraries/images/menu.svg);
+				text-indent:5000px;
+				border: none;
+			}
+
+			.show-site-menu #toggle-menu {
+				background-image: url(/libraries/images/close.svg);
 			}
 
 			#wrapper.show-site-menu #rootNav {
 				position: fixed;
-			    top: 0;
-			    left: 0;
-			    width: 100vw;
-			    height: 100vh;
-			    background: red;
-			    z-index: 1;
-			    display: grid;
+				top: 0;
+				left: 0;
+				width: 100vw;
+				height: 100vh;
+				background: red;
+				z-index: 1;
+				display: grid;
+				align-content: center;
 			}
 			
 			#rootNav {
@@ -332,10 +359,9 @@
 			}
 			#rootNav > ol {
 				display: grid;
-				grid-template-columns: repeat(1, min-content);
-				grid-column-gap: 24px;
-				grid-template-rows: min-content;
-				width: fit-content;
+				grid-template: repeat(3, 1fr) / repeat(2, min-content);
+				grid-auto-flow: column;
+				grid-gap: var(--unit-8);
 				align-self: center;
 				justify-self: center;
 			}
