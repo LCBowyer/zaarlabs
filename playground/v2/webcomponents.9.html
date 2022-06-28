@@ -1429,16 +1429,16 @@
 
 			body {
 				display: grid;
-				grid-template-columns: var(--unit-4) 1fr var(--unit-4);
+				grid-template-columns: var(--unit-6) 1fr var(--unit-6);
 				grid-template-rows: var(--unit-1) min-content min-content min-content;
-				grid-template-areas: 	". . 	."
-										". Header 	."
-										". Main 	."
-										". Footer 	.";
-				grid-column-gap: var(--unit-4);
+				grid-template-areas:
+				". . ."
+				". Header ."
+				". Main ."
+				". Footer .";
 				grid-row-gap: var(--unit-4);
 				max-width: 1700px;
-				margin:  0 auto;
+				margin: 0 auto;
 			}
 
 			body.show-site-menu {
