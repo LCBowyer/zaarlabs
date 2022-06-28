@@ -4,6 +4,6 @@ DirectoryIndex index.html
 RewriteEngine On
 
 # Front-controller (exclude static resources)
-RewriteRule ^index\.html$ - [L]
-RewriteCond %{REQUEST_URI} !^/(playground|css|img|js|libraries|webcomponents)/
-RewriteRule . /playground/v2/webcomponents.7.html [L]
+# RewriteRule ^index\.html$ - [L]
+# RewriteCond %{REQUEST_URI} !^/(playground|css|img|js|libraries|webcomponents)/
+# RewriteRule . /playground/v2/webcomponents.9.html [L]

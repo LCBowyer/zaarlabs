@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;700&family=Montserrat:wght@600;900&display=swap" rel="stylesheet">
+	<style>
+		/* Theme VARs can be used across WebComponents */
+		:root {
+
+			--accent-color-h:  23;
+			--accent-color-s:  97%;
+			--accent-color-l:  51%;
+
+			--surface-color-h:  330;
+			--surface-color-s:  6%;
+			--surface-color-l:  94%;
+
+			--on-accent-color-h:  330;
+			--on-accent-color-s:  6%;
+			--on-accent-color-l:  94%;
+
+			--on-surface-color-h:  60;
+			--on-surface-color-s:  1%;
+			--on-surface-color-l:  27%;
+
+
+			--accent-color--light:  hsl(var(--accent-color-h)
+										var(--accent-color-s)
+										calc(var(--accent-color-l) + 5%));
+
+			--accent-color--normal:  hsl(var(--accent-color-h)
+										var(--accent-color-s)
+										var(--accent-color-l));
+
+			--accent-color--dark:  hsl(var(--accent-color-h)
+										var(--accent-color-s)
+										calc(var(--accent-color-l) - 5%));
+
+
+
+			--surface-color--light:  hsl(var(--surface-color-h)
+										var(--surface-color-s)
+										calc(var(--surface-color-l) + 5%));
+
+			--surface-color--normal:  hsl(var(--surface-color-h)
+										var(--surface-color-s)
+										var(--surface-color-l));
+
+			--surface-color--dark:  hsl(var(--surface-color-h)
+										var(--surface-color-s)
+										calc(var(--surface-color-l) - 5%));
+
+
+			--on-accent-color--light:  hsl(var(--on-accent-color-h)
+										var(--on-accent-color-s)
+										calc(var(--on-accent-color-l) + 5%));
+
+			--on-accent-color--normal:  hsl(var(--on-accent-color-h)
+										var(--on-accent-color-s)
+										var(--on-accent-color-l));
+
+			--on-accent-color--dark:  hsl(var(--on-accent-color-h)
+										var(--on-accent-color-s)
+										calc(var(--on-accent-color-l) - 5%));
+
+
+
+			--on-surface-color--light:  hsl(var(--on-surface-color-h)
+										var(--on-surface-color-s)
+										calc(var(--on-surface-color-l) + 5%));
+
+			--on-surface-color--normal:  hsl(var(--on-surface-color-h)
+										var(--on-surface-color-s)
+										var(--on-surface-color-l));
+
+			--on-surface-color--dark:  hsl(var(--on-surface-color-h)
+										var(--on-surface-color-s)
+										calc(var(--on-surface-color-l) - 5%));
+/* 2.4 */
+
+			--header-font-family:  'Montserrat', sans-serif;
+			--header-font-weight:  900;
+
+			--subheader-font-family:  'Montserrat', sans-serif;
+			--subheader-font-weight:  600;
+
+			--bold-copy-font-family:  'Cormorant Garamond', serif;
+			--bold-copy-font-weight:  700;
+
+			--copy-font-family:  'Cormorant Garamond', serif;
+			--copy-font-weight:  500;
+
+
+
+			--magic-number:  3;
+
+			--unit-1:  calc(var(--magic-number) * 1 * 0.1rem);
+			--unit-2:  calc(var(--magic-number) * 2 * 0.1rem);
+			--unit-4:  calc(var(--magic-number) * 4 * 0.1rem);
+			--unit-6:  calc(var(--magic-number) * 6 * 0.1rem);
+			--unit-8:  calc(var(--magic-number) * 8 * 0.1rem);
+			--unit-12:  calc(var(--magic-number) * 12 * 0.1rem);
+			--unit-16:  calc(var(--magic-number) * 16 * 0.1rem);
+
+			--nav-link-padding: calc(var(--magic-number) * 1px) ;
+
+			--base-font-size:  19px;
+
+			--font-size-site: 2rem;
+			--font-size-subsite: 2rem;
+			--font-size-heading:  2rem;
+			--font-size-subheading:  1.2rem;
+
+			--site-line-height:  calc(var(--font-size-site) * 0.8);
+			--subsite-line-height:  calc(var(--font-size-subsite) * 1.1);
+			--header-line-height:  calc(var(--font-size-heading) * 1.1);
+			--subheader-line-height:  calc(var(--font-size-subheading) * 2);
+
+			--font-size-default:  1rem;
+
+			--font-size-secondary:  0.8rem;
+			--font-size-tertiary:  0.6rem;
+		}
+
+		/* Extra small devices (phones, 600px and down) */
+		@media only screen and (max-width: 600px) {
+
+		}
+
+		/* Small devices (portrait tablets and large phones, 600px and up) */
+		@media only screen and (min-width: 600px) {
+
+		}
+
+		/* Medium devices (landscape tablets, 768px and up) */
+		@media only screen and (min-width: 768px) {
+
+		}
+
+		/* Large devices (laptops/desktops, 992px and up) */
+		@media only screen and (min-width: 992px) {
+
+		}
+
+		/* Extra large devices (large laptops and desktops, 1200px and up) */
+		@media only screen and (min-width: 1200px) {
+
+		}
+
+
+	</style>
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZNAV -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zNavStyle">
+			body {
+				background-color: red!important;
+			}
+			hgroup {
+				text-align:center;
+				grid-area: SiteLogo;
+			}
+			h1 {
+				color: var(--on-surface-color--dark);
+				font-family: var(--header-font-family);
+				font-weight: var(--header-font-weight);
+				text-transform: uppercase;
+				font-size: var(--font-size-site);
+				line-height: var(--site-line-height);
+				margin: 0;
+				display: inline-block;
+			}
+			h2 {
+				color: var(--on-surface-color--light);
+				font-family: var(--header-font-family);
+				font-weight: var(--header-font-weight);
+				text-transform: uppercase;
+				font-size: var(--font-size-subsite);
+				line-height: var(--subsite-line-height);
+				margin: 0;
+				display: inline-block;
+			}
+
+			ol {
+				list-style: none;
+				padding-left: 24px;
+			}
+
+			ol[data-level="1"],
+			ol[data-level="2"] {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			ol[data-level="2"] {
+
+			}
+
+			ol[data-level="1"] li {
+				padding: 0;
+			}
+
+			ol[data-level="1"] li:hover ol[data-level="2"] {
+				display: block;
+			}
+
+			ol[data-level="1"] > li {
+				list-style: none;
+				padding-bottom: 24px;
+			}
+
+			ol[data-level="1"] > li > a {
+				pointer-events: none;
+			}
+
+			ol[data-level="1"] > li > button {
+				display: none;
+			}
+
+	
+
+	
+
+			li {
+				position: relative;
+			}
+
+			a {
+				color: var(--on-surface-color--light);
+				font-family: var(--copy-font-family);
+				font-weight: var(--copy-font-weight);
+				font-size: var(--font-size-default);
+				text-decoration: none;
+				display: inline-block;
+				padding: var(--nav-link-padding);
+				line-height: var(--font-size-default);
+			}
+			
+
+			ol[data-level="1"] > li > a {
+				color: var(--on-surface-color--normal);
+				font-family: var(--header-font-family);
+				font-weight: var(--header-font-weight);
+				text-transform: uppercase;
+				font-size: var(--font-size-default);
+			}
+
+			
+
+			
+
+			a.selected {
+				background-color: var(--accent-color--light);
+				color: var(--on-accent-color--light);
+			}
+
+			a.selected-path {
+			}
+
+			li > button {
+				display: none;
+				position: absolute;
+				right: 0;
+				background: top left no-repeat;
+				background-image: url(/libraries/images/opened-icon.svg);
+				width: 24px;
+				height: 24px;
+				text-indent: -50000px;
+				background-size: contain;
+				border: none;
+				opacity: 0.5;
+			}
+
+			#rootNav button:hover {
+				opacity: 1;
+			}
+
+			li.submenu-closed > button {
+				background-image: url(/libraries/images/closed-icon.svg);
+			}
+
+			li[data-submenu="true"] > button {
+				display: inline-block;
+			}
+
+			li.submenu-closed > ol {
+				display: none;
+			}
+
+			#wrapper {
+				display: grid;
+				grid-template-rows: min-content min-content;
+				grid-row-gap: var(--unit-2);
+				grid-template-columns: min-content 1fr;
+				grid-template-areas: 	"MenuButton SiteLogo"
+										"SiteMenu SiteMenu";
+			}
+
+			#wrapper {
+				display: grid;
+				grid-template-rows: min-content;
+				grid-row-gap: var(--unit-2);
+				grid-template-columns: min-content 1fr;
+				grid-template-areas: 	"MenuButton SiteLogo";
+			}
+
+			#toggle-menu {
+				grid-area: MenuButton;
+				z-index: 20;
+			}
+
+			#wrapper.show-site-menu #rootNav {
+				position: fixed;
+			    top: 0;
+			    left: 0;
+			    width: 100vw;
+			    height: 100vh;
+			    background: red;
+			    z-index: 1;
+			    display: grid;
+			}
+			
+			#rootNav {
+				align-self: center;
+				justify-self: center;
+				grid-area: SiteMenu;
+				display: none;
+			}
+			#rootNav > ol {
+				display: grid;
+				grid-template-columns: repeat(1, min-content);
+				grid-column-gap: 24px;
+				grid-template-rows: min-content;
+				width: fit-content;
+				align-self: center;
+				justify-self: center;
+			}
+
+			
+
+			
+
+		</script>
+		<template id="zNavTemplate">
+			<div id="wrapper">
+				<button type="button" id="toggle-menu">Menu</button>
+				<hgroup>
+					<h1>{{heading}}</h1>
+					<h2>{{subheading}}</h2>
+				</hgroup>
+
+				<nav id="rootNav">
+					<li data-submenu="{{hasSubmenu}}">
+						<a href="{{url}}" page="{{page}}">{{label}}</a>
+						<button type="button">Toggle</button>
+						{{submenu}}
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zNav extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data) {
+					let navTemplate = this.navTemplate;
+
+					let buildTree = (nav, level) => {
+						level++;
+
+						let renderedNav = "";
+						let	submenu = "";
+						let hasSubmenu = false;
+
+						nav.forEach((node) => {
+							if(node.submenu){
+								submenu = buildTree(node.submenu, level);
+								hasSubmenu = true;
+							}
+
+							renderedNav += navTemplate
+							.replace(/{{label}}/g, node.label)
+							.replace(/{{url}}/g, node.url)
+							.replace(/{{page}}/g, node.page)
+							.replace(/{{hasSubmenu}}/g, hasSubmenu)
+							.replace(/{{submenu}}/g, submenu);
+
+						});
+
+						return "<ol data-level=" + level + ">" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+						.replace(/{{heading}}/g, data.heading)
+						.replace(/{{subheading}}/g, data.subheading);
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildTree(data.tree, 0);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zNavStyle").innerHTML;
+					let mainTemplate = document.getElementById("zNavTemplate");
+
+					this.navTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+						tagName = element.tagName.toLowerCase();
+
+						let traceRoot = (element, className) => {
+							element.classList.add(className);
+							let parentLI = element.parentNode.parentNode.closest("li"),
+								parentLink = (parentLI) ? parentLI.querySelector("a") : null;
+
+							if(parentLink){
+								traceRoot(parentLink, "selected-path")
+							}
+						}
+
+						switch(tagName){
+							case "a":
+								event.preventDefault();
+
+								let href = element.getAttribute("href");
+								let title = element.innerHTML;
+								let page = element.getAttribute("page");
+								
+								navigate(href, title, page);
+
+								
+
+								let previouslySelected = this.shadowRoot.querySelectorAll(".selected, .selected-path");
+
+								Array.from(previouslySelected).forEach((element) => {
+									element.classList.remove("selected", "selected-path");
+								})
+
+								traceRoot(element, "selected");
+								
+								break;
+							case "button":
+								if(element.getAttribute("id") == "toggle-menu") {
+									console.log("TOGGLE SITE MENU");
+									this.shadowRoot.querySelector("#wrapper").classList.toggle("show-site-menu")
+									document.body.classList.toggle("show-site-menu");
+								} else {
+									element.parentNode.classList.toggle("submenu-closed")
+								}
+
+						}
+					})
+
+
+
+				};
+
+			}
+
+			customElements.define("z-nav", zNav);
+		</script>
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZFOOTER -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zFooterStyle">
+			#wrapper {
+			}
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+		</script>
+		<template id="zFooterTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+
+				<nav id="rootNav">
+					<li>
+						<a href="{{url}}" data-page="{{page}}">{{label}}</a>
+						<p>{{paragraph}}</p>
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zFooter extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data) {
+					let repeatTemplate = this.repeatTemplate,
+						buildFooter = (items) => {
+						let renderedNav = "";
+
+						items.forEach((item) => {
+							renderedNav += repeatTemplate
+												.replace(/{{label}}/g, item.label)
+												.replace(/{{url}}/g, item.url)
+												.replace(/{{page}}/g, item.page)
+												.replace(/{{paragraph}}/g, (item.paragraph || ""))
+
+						});
+
+						return "<ol>" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML.replace(/{{heading}}/g, data.heading);
+
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildFooter(data.items);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zFooterStyle").innerHTML;
+					let mainTemplate = document.getElementById("zFooterTemplate");
+
+					this.repeatTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+						tagName = element.tagName.toLowerCase();
+
+						if(tagName == "a"){
+							event.preventDefault();
+
+							let href = element.getAttribute("href");
+							let title = element.innerHTML;
+							
+							navigate(href, title);
+
+						}
+					})
+
+				};
+
+			}
+
+			customElements.define("z-footer", zFooter);
+		</script>
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZIMAGE -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zImageStyle">
+			
+
+			
+			p:empty {
+				display: none;
+			}
+
+			img {
+				width: 100%;
+				box-shadow:  rgb(50 50 50 / 23%) -3px 2px 9px 0px;
+				grid-area:  Image;
+			}
+
+			hgroup {
+				grid-area:  Heading;
+			}
+			h1 {
+				color: var(--on-surface-color--normal);
+				font-family: var(--header-font-family);
+				font-weight: var(--header-font-weight);
+				text-transform: uppercase;
+				font-size: var(--font-size-secondary);
+				margin:  0;
+			}
+
+			h2 {
+				color: var(--on-surface-color--normal);
+				font-family: var(--subheader-font-family);
+				font-weight: var(--subheader-font-weight);
+				font-size: var(--font-size-secondary);
+				margin:  0;
+			}
+
+			#wrapper {
+			    position: relative;
+			    display: grid;
+			    grid-template-columns: var(--unit-4) 1fr var(--unit-4);
+			    grid-template-rows: min-content;
+			    grid-template-areas: 	"Image		Image		Image"
+			    						".		Heading		.";
+			    grid-row-gap: var(--unit-4);
+			}
+
+			#wrapper:hover {
+				position: relative;
+			}
+
+			a {
+				position: absolute;
+			    top: 0;
+			    left: 0;
+			    width: 100%;
+			    height: 100%;
+			    text-indent: -50000px;
+			}
+		</script>
+		<template id="zImageTemplate">
+			<div id="wrapper">
+				<img src="{{src}}" />
+				<hgroup>
+					<h1>{{heading}}</h1>
+					<h2>{{subheading}}</h2>
+				</hgroup>
+				<a href="{{href}}" page="{{page}}">{{zoom}}</a>
+			</div>
+		</template>
+		<script>
+			class zImage extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zImageStyle").innerHTML;
+					let mainTemplate = document.getElementById("zImageTemplate");
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.getAttributeNames().forEach((attribute) => {
+						let rege = new RegExp("{{"+attribute+"}}", "g");
+						preHTML = preHTML.replace(rege, this.getAttribute(attribute))
+					});
+
+					this.shadowRoot.innerHTML += preHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+							tagName = element.tagName.toLowerCase();
+
+						if(tagName == "a"){
+							event.preventDefault();
+
+							let href = element.getAttribute("href"),
+								type = this.getAttribute("type"),
+								page = this.getAttribute("page"),
+								heading = this.getAttribute("heading"),
+								subheading = this.getAttribute("subheading"),
+								title = element.innerHTML;
+
+							switch(type){
+								case "link":
+									navigate(href, title, page);
+									break;
+								case "zoom":
+									fullscreen(href, heading, subheading);
+								break;
+								default:
+									break;
+							}
+
+
+						}
+					})
+
+				};
+				
+			}
+
+			customElements.define("z-image", zImage);
+		</script>
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZFULLSCREEN -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zFullscreenStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+			#wrapper {
+				background-color: purple;
+				display: block;
+				height: 100%;
+			} 
+		</script>
+		<template id="zFullscreenTemplate">
+			<div id="wrapper">
+				<img src="{{src}}" />
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+				<button type="button">Close</button>
+			</div>
+		</template>
+		<script>
+			class zFullscreen extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zFullscreenStyle").innerHTML;
+					let mainTemplate = document.getElementById("zFullscreenTemplate");
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.getAttributeNames().forEach((attribute) => {
+						let rege = new RegExp("{{"+attribute+"}}", "g");
+						preHTML = preHTML.replace(rege, this.getAttribute(attribute))
+					});
+
+					this.shadowRoot.innerHTML += preHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+							tagName = element.tagName.toLowerCase();
+
+						switch(tagName){
+							case "a":
+								event.preventDefault();
+
+								let href = element.getAttribute("href");
+
+								console.log("Slide");
+								break;
+							case "button":
+								console.log("Close fullscreen");
+								closeFullscreen();
+								break;
+						}
+
+						
+					})
+
+				};
+				
+			}
+
+			customElements.define("z-fullscreen", zFullscreen);
+		</script>
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZPROJECT -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zProjectStyle">
+			
+			p:empty {
+				display: none;
+			}
+			#wrapper {
+			    display: grid;
+			    grid-template-columns: 3fr 2fr;
+			    grid-template-rows: var(--unit-2) repeat(5, min-content);
+
+			    grid-template-areas: 	"Image		."
+			    						"Image		Hgroup"
+			    						"Image		Description"
+			    						"Image		Tags"
+			    						"Image		."
+			    						"Gallery	Gallery";
+			    grid-column-gap: var(--unit-6);
+			    grid-row-gap: var(--unit-4);
+			}
+
+			hgroup {
+				grid-area:  Hgroup;
+
+			}
+			h1 {
+				margin:  0;
+				font-size:  var(--font-size-heading);
+				line-height:  var(--font-size-heading);
+				font-family: var(--header-font-family);
+				font-weight: var(--header-font-weight);
+				color: var(--on-surface-color--dark);
+				line-height: var(--header-line-height);
+			}
+			h2 {
+				margin:  0;
+				font-size:  var(--font-size-subheading);
+				font-family: var(--subheader-font-family);
+				font-weight: var(--subheader-font-weight);
+				color: var(--on-surface-color--light);
+				line-height: var(--subheader-line-height);
+			}
+			h3 {
+				margin: 0;
+				font-size: var(--font-size-default);
+				font-family: var(--bold-copy-font-family);
+				font-weight: var(--bold-copy-font-weight);
+				color: var(--on-surface-color--dark);
+				text-decoration: underline;
+			}
+			p {
+				margin:  0;
+				font-size:  var(--font-size-default);
+				font-family: var(--copy-font-family);
+				font-weight: var(--copy-font-weight);
+				color: var(--on-surface-color--light);
+			}
+			z-image {
+				grid-area:  Image;
+			}
+			#description {
+				grid-area:  Description;
+			}
+			z-tags {
+				grid-area:  Tags;
+			}
+			z-gallery {
+				grid-area:  Gallery;
+			}
+			ol {
+				list-style: none;
+				padding: 0;
+				display: grid;
+				grid-template-rows: auto;
+				grid-row-gap: var(--unit-4);
+				margin:  0;
+			}
+
+			
+		</script>
+		<template id="zProjectTemplate">
+			<div id="wrapper">
+				<hgroup>
+					<h1>{{heading}}</h1>
+					<h2>{{subheading}}</h2>
+				</hgroup>
+				<z-image id="image1" heading="Paul" subheading="Watercolour" src="/libraries/images/paul.jpg" href="/zoom/images/paul.jpg" type="zoom"></z-image>
+				<div id="description">
+					<li>
+						<h3>{{description.heading}}</h3>
+						<p>{{description.paragraph}}</p>
+					</li>
+				</div>
+
+				<z-tags id="tags"></z-tags>
+
+				<z-gallery id="gallery" heading="{{galleryheading}}" subheading="{{gallerysubheading}}"></z-gallery>
+
+				
+			</div>
+		</template>
+		<script>
+			class zProject extends HTMLElement {
+
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+
+
+				build(data){
+					let descriptionTemplate = this.descriptionTemplate;
+
+					function buildMenu(descriptions){
+						let renderedDescription = "";
+
+						descriptions.forEach((description) => {
+							renderedDescription += descriptionTemplate
+							.replace(/{{description.heading}}/g, description.heading)
+							.replace(/{{description.paragraph}}/g, description.paragraph)
+
+						});
+
+						return "<ol>" + renderedDescription + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{banner}}/g, data.banner)
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+
+					this.shadowRoot.querySelector("#description").innerHTML = buildMenu(data.descriptions);
+
+					// BUILD GALLERY
+					const myGallery = this.shadowRoot.getElementById("gallery");
+
+					myGallery.setAttribute("heading", "tester");
+					myGallery.setAttribute("subheading", "sub tester");
+					myGallery.buildTree(data.zGallery);
+
+					// BUILD TAGS
+					const myTags = this.shadowRoot.getElementById("tags");
+					myTags.build(data.zTags)
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zProjectStyle").innerHTML;
+					let mainTemplate = document.getElementById("zProjectTemplate");
+					this.descriptionTemplate = mainTemplate.content.querySelector("#description").innerHTML;
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+				};
+
+
+			}
+
+			customElements.define("z-project", zProject);
+		</script>
+
+
+
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZCATEGORY -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zCategoryStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+
+			#wrapper > h1,
+			#wrapper > h2 {
+				display: none;
+			}
+		</script>
+		<template id="zCategoryTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+
+				<z-gallery id="gallery"></z-gallery>
+			</div>
+		</template>
+		<script>
+			class zCategory extends HTMLElement {
+
+				
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data){
+					let descriptionTemplate = this.descriptionTemplate;
+
+					function buildMenu(descriptions){
+						let renderedDescription = "";
+
+						descriptions.forEach((data) => {
+							renderedDescription += descriptionTemplate
+							.replace(/{{description.heading}}/g, data.heading)
+							.replace(/{{description.subheading}}/g, data.subheading)
+							.replace(/{{description.paragraph}}/g, data.paragraph)
+
+						});
+
+						return "<ol>" + renderedDescription + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+
+					// BUILD GALLERY
+					const myGallery = this.shadowRoot.getElementById("gallery");
+					
+					myGallery.buildTree(data.zGallery);
+					
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zCategoryStyle").innerHTML;
+					let mainTemplate = document.getElementById("zCategoryTemplate");
+
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.getAttributeNames().forEach((attribute) => {
+						let rege = new RegExp("{{"+attribute+"}}", "g");
+						preHTML = preHTML.replace(rege, this.getAttribute(attribute))
+					});
+
+					this.shadowRoot.innerHTML += preHTML;
+
+				};
+
+				disconnectedCallback() {
+				}
+
+				adoptedCallback() {
+				}
+				attributeChangedCallback(name, oldValue, newValue) {
+				}
+
+			}
+
+			customElements.define("z-category", zCategory);
+		</script>
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZCONTACT -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zContactStyle">
+			li {
+				background-color: red;
+			}
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+		</script>
+		<template id="zContactTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+				<z-image id="image1" heading="" subheading="" src="{{banner}}" href="" type="zoom"></z-image>
+
+				<div id="description">
+					<li>
+						<h1>{{description.heading}}</h1>
+						<h2>{{description.subheading}}</h2>
+						<p>{{description.paragraph}}</p>
+					</li>
+				</div>
+			</div>
+		</template>
+		<script>
+			class zContact extends HTMLElement {
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data){
+					let descriptionTemplate = this.descriptionTemplate;
+
+					function buildMenu(descriptions){
+						let renderedDescription = "";
+
+						descriptions.forEach((description) => {
+							renderedDescription += descriptionTemplate
+							.replace(/{{description.heading}}/g, description.heading)
+							.replace(/{{description.subheading}}/g, description.subheading)
+							.replace(/{{description.paragraph}}/g, description.paragraph)
+
+						});
+
+						return "<ol>" + renderedDescription + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{banner}}/g, data.banner)
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+					this.shadowRoot.querySelector("#description").innerHTML = buildMenu(data.descriptions);
+					
+
+
+
+					
+				}
+
+
+				connectedCallback () {
+					let style = document.getElementById("zContactStyle").innerHTML;
+					let mainTemplate = document.getElementById("zContactTemplate");
+
+					this.descriptionTemplate = mainTemplate.content.querySelector("#description").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					let preHTML = mainTemplate.innerHTML;
+
+					this.shadowRoot.innerHTML += preHTML;
+
+				};
+
+
+			}
+
+			customElements.define("z-contact", zContact);
+		</script>
+
+
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZGALLERY -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zGalleryStyle">
+			
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+			#wrapper > h1,
+			#wrapper > h2 {
+				display: none;
+			}
+
+			ol {
+				list-style: none;
+				padding: 0;
+			}
+
+			#rootNav > ol {
+				display: grid;
+				grid-template-columns: repeat(3, 1fr);
+				grid-column-gap: var(--unit-6);
+				grid-row-gap: var(--unit-6);
+			}
+
+			
+
+		</script>
+		<template id="zGalleryTemplate">
+			<div id="wrapper">
+				<h1>{{heading}}</h1>
+				<h2>{{subheading}}</h2>
+				<nav id="rootNav">
+					<li>
+						<z-image id="image1" heading="{{heading}}" subheading="{{subheading}}" src="{{thumb}}" href="{{url}}" page="{{page}}" type="{{type}}"></z-image>
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zGallery extends HTMLElement {
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				buildTree(data) {
+					let navTemplate = this.navTemplate;
+
+					function buildMenu(items){
+						let renderedNav = "";
+
+						items.forEach((item) => {
+							renderedNav += navTemplate
+							.replace(/{{heading}}/g, item.heading)
+							.replace(/{{subheading}}/g, item.subheading)
+							.replace(/{{thumb}}/g, item.thumb)
+							.replace(/{{url}}/g, item.url)
+							.replace(/{{page}}/g, (item.page || false))
+							.replace(/{{type}}/g, item.type);
+
+						});
+
+						return "<ol>" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML
+					.replace(/{{heading}}/g, data.heading)
+					.replace(/{{subheading}}/g, data.subheading)
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildMenu(data.items);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zGalleryStyle").innerHTML;
+					let mainTemplate = document.getElementById("zGalleryTemplate");
+
+					this.navTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+				};
+
+			}
+
+			customElements.define("z-gallery", zGallery);
+		</script>
+
+
+
+
+
+
+
+
+
+
+	<!-- ========================================= -->
+	<!-- WEB COMPONENT => ZTAGS -->
+	<!-- ========================================= -->
+		<script type="text/css" id="zTagsStyle">
+			
+
+			a.selected {
+				background-color: blue;
+			}
+			p:empty {
+				display: none;
+			}
+			h1 {
+				font-family: var(--header-font-family);
+				font-weight: var(--header-font-weight);
+				font-size: var(--font-size-tertiary);
+				text-transform: uppercase;
+				color:  var(--on-surface-color--dark);
+				margin: 0;
+			}
+			a {
+				font-family: var(--header-font-family);
+				font-weight: var(--header-font-weight);
+				font-size: var(--font-size-tertiary);
+				text-transform: uppercase;
+				color:  var(--on-surface-color--dark);
+			}
+
+			ol {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+			}
+
+			ol li {
+				display: inline-block;
+			}
+		</script>
+		<template id="zTagsTemplate">
+			<div id="wrapper">
+				<h1>{{header}}</h1>
+				<nav id="rootNav">
+					<li>
+						<a href="/tags/{{tag}}" tag="{{tag}}">{{tag}}</a>
+					</li>
+				</nav>
+			</div>
+		</template>
+		<script>
+			class zTags extends HTMLElement {
+
+				static get observedAttributes() {
+					return [];
+				}
+
+				constructor() {
+					super();
+
+					const shadow = this.attachShadow({mode: 'open'})
+				}
+
+				build(data) {
+					let navTemplate = this.navTemplate;
+
+					function buildMenu(nav){
+						let renderedNav = "";
+
+						nav.forEach((tag) => {
+							renderedNav += navTemplate
+							.replace(/{{tag}}/g, tag)
+						});
+
+						return "<ol>" + renderedNav + "</ol>"
+					}
+
+					this.shadowRoot.innerHTML = this.shadowRoot.innerHTML.replace(/{{header}}/g, (data.heading || ""));
+
+
+					this.shadowRoot.querySelector("#rootNav").innerHTML = buildMenu(data.tags);
+				}
+
+				connectedCallback () {
+					let style = document.getElementById("zTagsStyle").innerHTML;
+					let mainTemplate = document.getElementById("zTagsTemplate");
+
+					this.navTemplate = mainTemplate.content.querySelector("#rootNav").innerHTML;
+
+					this.shadowRoot.innerHTML += "<style>" + style + "</style>";
+					
+
+					this.shadowRoot.innerHTML += mainTemplate.innerHTML;
+
+					this.shadowRoot.addEventListener("click", (event) => {
+						let element = event.target,
+						tagName = element.tagName.toLowerCase();
+
+						if(tagName == "a"){
+							event.preventDefault();
+
+							let href = element.getAttribute("href");
+							let title = element.innerHTML;
+							let tag = element.getAttribute("tag");
+							
+							displayTags(href, title, tag);
+
+
+						}
+					})
+
+				};
+
+
+			}
+
+			customElements.define("z-tags", zTags);
+		</script>
+
+		<style>
+			
+			html {
+				height:  100vh;
+				font-size:  var(--base-font-size);
+			}
+			body {
+				background: var(--surface-color--normal);
+				height: 100%;
+			}
+
+			html,
+			body,
+			menu {
+				margin: 0;
+			}
+
+			html,
+			body,
+			div,
+			main,
+			button {
+				box-sizing: border-box;
+			}
+
+			body {
+				display: grid;
+				grid-template-columns: var(--unit-4) 1fr var(--unit-4);
+				grid-template-rows: var(--unit-1) min-content min-content min-content;
+				grid-template-areas: 	". . 	."
+										". Header 	."
+										". Main 	."
+										". Footer 	.";
+				grid-column-gap: var(--unit-4);
+				grid-row-gap: var(--unit-4);
+				max-width: 1700px;
+				margin:  0 auto;
+			}
+
+			body.show-site-menu {
+				overflow: hidden;
+			}
+
+		
+
+			body.fullscreen {
+				overflow: hidden;
+				transition: all 0.3s ease-in;
+			}
+
+			header {
+				grid-area: Header;
+
+				display: grid;
+			}
+
+			main {
+				grid-area: Main;
+
+			}
+
+			footer {
+				grid-area: Footer;
+
+				display: grid;
+			}
+
+			z-fullscreen {
+			    background: yellow;
+			    position: absolute;
+			    top: 0;
+			    left: 0;
+			    width: 100vw;
+			    height: 100vh;
+			}
+
+			#quickMenu {
+				position: fixed;
+				height: 100vh;
+				left: var(--unit-4);
+				background-color: pink;
+				padding: 0;
+				display: grid;
+				grid-template-rows: 1fr repeat(5, 48px) 1fr;
+
+				grid-template-areas: 	"."
+										"QuickMenuButton1"
+										"QuickMenuButton2"
+										"QuickMenuButton3"
+										"QuickMenuButton4"
+										"QuickMenuButton5"
+										".";
+				grid-row-gap:  var(--unit-2);
+				display: none;
+			}
+
+			
+
+			#quickMenu button{
+				width: var(--unit-8);
+			}
+
+			#quickMenuButton-1 {
+				grid-area:  QuickMenuButton1;
+			}
+
+			#quickMenuButton-2 {
+				grid-area:  QuickMenuButton2;
+			}
+
+			#quickMenuButton-3 {
+				grid-area:  QuickMenuButton3;
+			}
+
+			#quickMenuButton-4 {
+				grid-area:  QuickMenuButton4;
+			}
+
+			#quickMenuButton-5 {
+				grid-area:  QuickMenuButton5;
+			}
+
+		
+
+		
+
+		</style>
+
+</head>
+
+<body>
+	<menu id="quickMenu">
+		<button type="button" id="quickMenuButton-1">1</button>
+		<button type="button" id="quickMenuButton-2">2</button>
+		<button type="button" id="quickMenuButton-3">3</button>
+		<button type="button" id="quickMenuButton-4">4</button>
+		<button type="button" id="quickMenuButton-5">5</button>
+	</menu>
+
+	<header>
+		<z-nav id="siteNav"></z-nav>
+	</header>
+
+
+	<main id="mainContent">
+		Main Here
+	</main>
+
+	<footer>
+		<z-footer id="footer1"></z-footer>
+		<z-footer id="footer2"></z-footer>
+		<z-footer id="footer3"></z-footer>
+		<z-footer id="footer4"></z-footer>
+	</footer>
+
+
+
+	
+	<script>
+
+			const URLReWrite = false;
+
+		
+			// URL MANAGEMENT
+			function displayTags(url, title, page) {
+				console.log("Display tags:", url, title, page);
+				console.log("Need to search through the content and retrieve a list of items that contain the selected TAG - check Array Functions");
+			}
+
+			function navigate(url, title, page){
+				if(URLReWrite) {history.pushState({}, title, url);}
+
+				let data = content[page],
+					type = data.type,
+					output = document.getElementById("mainContent"),
+					webComponent = document.createElement(type);
+
+				output.replaceChildren(webComponent);
+
+				webComponent.build(data);
+
+			}
+
+			function getContentFromURL(url){
+				let siteNav = menus.siteNav.tree;
+				let foundMatch;
+				let searchTree = (tree) => {
+					tree.forEach((node) => {
+						let nodeUrl = node.url;
+
+						if(nodeUrl == url){
+							foundMatch = node.page;
+
+						} else if(node.submenu && !foundMatch){
+							searchTree(node.submenu)
+						}
+					})
+				}
+
+				searchTree(siteNav);
+
+				let siteNavComponent = document.getElementById("siteNav"),
+					navLink = siteNavComponent.shadowRoot.querySelector("a[page='" + foundMatch + "']");
+
+				if(navLink){
+					navLink.click();
+				} else {
+					console.log("DISPLAY 404");
+				}
+
+			}
+
+			function closeFullscreen(){
+				let zFullscreen = document.getElementById("fullscreen");
+				zFullscreen.remove();
+
+				document.body.classList.remove("fullscreen");
+
+			}
+
+
+			function fullscreen(src, heading, subheading){
+				let zFullscreen = document.createElement("z-fullscreen");
+
+					zFullscreen.setAttribute("id", "fullscreen");
+					zFullscreen.setAttribute("heading", heading);
+					zFullscreen.setAttribute("subheading", subheading);
+					zFullscreen.setAttribute("src", src);
+
+					document.body.appendChild(zFullscreen);
+
+					zFullscreen.style.top = window.scrollY + "px";
+					document.body.classList.add("fullscreen");
+			}
+
+			window.addEventListener('popstate', (event) => {
+				console.log("POPSTATE: " + document.location + ", state: " + JSON.stringify(event.state));
+			});
+
+			window.addEventListener('load', (event) => {
+				getContentFromURL(window.location.pathname);
+			});
+
+
+			// Create an object and auto generate
+			const quickMenu1 = document.getElementById("quickMenuButton-1");
+
+			quickMenu1.addEventListener("click", (event) => {
+				console.log("Clicked Quick Menu 1");
+				document.body.classList.toggle("hide-side-nav")
+			})
+
+			const quickMenu2 = document.getElementById("quickMenuButton-2");
+
+			quickMenu2.addEventListener("click", (event) => {
+				console.log("Clicked Quick Menu 2");
+				document.body.classList.toggle("top-nav")
+			})
+
+			const quickMenu3 = document.getElementById("quickMenuButton-3");
+
+			quickMenu3.addEventListener("click", (event) => {
+				console.log("Clicked Quick Menu 3");
+			})
+
+			const quickMenu4 = document.getElementById("quickMenuButton-4");
+
+			quickMenu4.addEventListener("click", (event) => {
+				console.log("Clicked Quick Menu 4");
+			})
+
+			const quickMenu5 = document.getElementById("quickMenuButton-5");
+
+			quickMenu5.addEventListener("click", (event) => {
+				console.log("Clicked Quick Menu 5");
+			})
+
+			
+
+			window.addEventListener('scroll', (event) => {
+				/*console.log(window.scrollY);;
+				let bodyClassList = document.body.classList;
+
+				if(window.scrollY > 900){
+					if(!bodyClassList.contains("tuck-away")){
+						bodyClassList.add("tuck-away")
+
+					}
+				} else {
+					if(bodyClassList.contains("tuck-away")){
+						bodyClassList.remove("tuck-away")
+						
+					}
+
+				}*/
+			});
+
+			let menus = {
+				"footer1": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"footer2": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"footer3": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"footer4": {
+					heading: "Footer 1",
+					items: [{
+						label: "Footer Link 1",
+						url: "/footer-link-1",
+						page: "paul"
+					},
+					{
+						label: "Footer Link 2",
+						url: "/footer-link-2",
+						page: "paul"
+					},
+					{
+						paragraph: "Hello this is an optional paragraph"
+					}]
+				},
+				"siteNav": {
+					heading: "Lee",
+					subheading: "Bowyer",
+					tree: [{
+						label: "Artwork",
+						url: "/artwork",
+						page: "artwork",
+						submenu: [{
+							label: "Watercolours",
+							url: "/artwork/watercolours",
+							page: "watercolours",
+							submenu: [{
+								label: "Paul",
+								url: "/artwork/watercolours/paul",
+								page: "paul",
+							},
+							{
+								label: "Two Birds",
+								url: "/artwork/watercolours/two-birds",
+								page: "twobirds",
+							},
+							{
+								label: "The Two of Us",
+								url: "/artwork/watercolours/the-two-of-us",
+								page: "ttou",
+							}]
+						},
+						{
+							label: "Indian Ink",
+							url: "/artwork/indianink",
+							page: "indianink",
+							submenu: [{
+								label: "Heart",
+								url: "/artwork/indianink/heart",
+								page: "heart",
+							},
+							{
+								label: "Richard",
+								url: "/artwork/indianink/richard",
+								page: "richard",
+							},
+							{
+								label: "Enchantress",
+								url: "/artwork/indianink/enchantress",
+								page: "enchantress",
+							}]
+						}]
+					},
+					{
+						label: "Projects",
+						url: "/projects",
+						page: "projects",
+						submenu: [{
+							label: "Mister &amp; Misfit",
+							url: "/projects/mister-and-misfit",
+							page: "misterandmisfit",
+						},
+						{
+							label: "Mardy Parker",
+							url: "/projects/mardy-parker",
+							page: "mardyparker",
+						},
+						{
+							label: "GPS Watch",
+							url: "/projects/mardy-parker",
+							page: "gpswatch",
+						}]
+					},
+					{
+						label: "Digital",
+						url: "/digital",
+						page: "digital",
+						submenu: [{
+							label: "Jahia DX8",
+							url: "/digital/jahia-dx8",
+							page: "jahiadx8",
+						},
+						{
+							label: "Sony",
+							url: "/digital/sony",
+							page: "sony",
+						},
+						{
+							label: "More",
+							url: "/digital/more",
+							page: "more",
+						}]
+					},
+					{
+						label: "Music",
+						url: "/music",
+						page: "music",
+						submenu: [{
+							label: "The Chapkas",
+							url: "/music/the-chapkas",
+							page: "thechapkas",
+						},
+						{
+							label: "Chasing Ships",
+							url: "/music/chasing-ships",
+							page: "chasingships",
+						}]
+					},
+					{
+						label: "Me",
+						url: "/me",
+						page: "me",
+						submenu: [{
+							label: "About",
+							url: "/me/about",
+							page: "aboutme",
+						},
+						{
+							label: "Contact",
+							url: "/me/contact",
+							page: "contactme",
+						},
+						{
+							label: "Curriculum Vitae",
+							url: "/me/curriculum-vitae",
+							page: "curriculumvitae",
+						}]
+					}] 
+				}
+			}
+
+
+				let content = {
+					"contactme": {
+						type: "z-contact",
+						heading:"Contact",
+						subheading:"Come and Say Hi",
+						banner: "/libraries/images/paul.jpg",
+						descriptions: [{
+							heading: "Title here",
+							paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+						},
+						{
+							heading: "Title here",
+							paragraph: "lk mlkj lmkj mlkj mlkj mlkj mlkj mlkj mlkj mlkj"
+						}]
+					},
+					"watercolours": {
+						type: "z-category",
+						heading: "Category Heading",
+						subheading: "Category Sub Heading",
+						zGallery: {
+							heading: "My Gallery",
+							subheading:" My subheading",
+							items: [{
+								heading: "Paul",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/artwork/projects/paul.html",
+								type:"link",
+								page: "paulproject"
+							},
+							{
+								heading: "Two Birds",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/artwork/projects/paul.html",
+								type:"link",
+								page: "twobirds"
+							}]
+						}
+					},
+					"paul": {
+						heading:"Paul McCartney",
+						subheading:"Abbey Road Walk",
+						type: "z-project",
+						zTags: {
+							heading: "Tags",
+							tags: ["watercolour", "musician", "blue"]
+						},
+						descriptions: [{
+							heading: "It's time to Come Together",
+							paragraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in purus vulputate, dignissim est ac, blandit velit. Aenean convallis ex eu ex aliquet, non tincidunt tellus posuere"
+						},
+						{
+							heading: "Album of the Century",
+							paragraph: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum in purus vulputate, dignissim est ac, blandit velit. Aenean convallis ex eu ex aliquet, non tincidunt tellus posuere"
+						}],
+						zGallery: {
+							heading: "My Gallery",
+							subheading:" My subheading",
+							items: [{
+								heading: "Paul",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							},{
+								heading: "Paul",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							},
+							{
+								heading: "Two Birds",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							},{
+								heading: "Paul",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							},{
+								heading: "Paul",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							},
+							{
+								heading: "Two Birds",
+								subheading: "Watercolour",
+								thumb: "/libraries/images/paul.jpg",
+								url: "/libraries/images/paul.jpg",
+								type:"zoom"
+							}]
+						}
+					}
+				}
+
+
+
+			// BUILD MAIN NAV
+			const siteNav = document.getElementById("siteNav");
+			siteNav.build(menus.siteNav);
+
+
+			// BUILD FOOTERS
+			const siteFooter1 = document.getElementById("footer1");
+			siteFooter1.build(menus.footer1);
+
+			const siteFooter2 = document.getElementById("footer2");
+			siteFooter2.build(menus.footer2);
+
+			const siteFooter3 = document.getElementById("footer3");
+			siteFooter3.build(menus.footer3);
+
+			const siteFooter4 = document.getElementById("footer4");
+			siteFooter4.build(menus.footer4);
+
+
+
+
+
+		
+
+
+
+
+
+
+	
+
+
+
+
+
+
+
+		
+
+		
+
+
+
+
+
+
+
+
+
+	</script>
+
+</body>
+</html>
