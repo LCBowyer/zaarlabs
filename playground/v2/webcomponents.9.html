@@ -109,7 +109,7 @@
 			--base-font-size: 21px;
 
 			--font-size-site: 2rem;
-			--font-size-subsite: 2rem;
+			--font-size-subsite: 1.6rem;
 			--font-size-heading:  2rem;
 			--font-size-subheading:  1.2rem;
 
@@ -124,69 +124,7 @@
 			--font-size-tertiary:  0.6rem;
 		}
 
-		/* Extra small devices (phones, 600px and down) */
-		@media only screen and (max-width: 600px) {
-			body::before {
-				content: "A ::: (max-width: 600px)";
-				position: absolute;
-				top: 0;
-				left: 0;
-				background-color: red;
-				font-size:  19px;
-			}
-		}
 
-		/* Small devices (portrait tablets and large phones, 600px and up) */
-		@media only screen and (min-width: 600px) {
-			body::before {
-				content: "B ::: (min-width: 600px)";
-				position: absolute;
-				top: 0;
-				left: 0;
-				background-color: red;
-				font-size:  19px;
-			}
-
-		}
-
-		/* Medium devices (landscape tablets, 768px and up) */
-		@media only screen and (min-width: 768px) {
-			body::before {
-				content: "C ::: (min-width: 768px)";
-				position: absolute;
-				top: 0;
-				left: 0;
-				background-color: red;
-				font-size:  19px;
-			}
-
-		}
-
-		/* Large devices (laptops/desktops, 992px and up) */
-		@media only screen and (min-width: 992px) {
-			body::before {
-				content: "D ::: (min-width: 992px)";
-				position: absolute;
-				top: 0;
-				left: 0;
-				background-color: red;
-				font-size:  19px;
-			}
-
-		}
-
-		/* Extra large devices (large laptops and desktops, 1200px and up) */
-		@media only screen and (min-width: 1200px) {
-			body::before {
-				content: "E ::: (min-width: 1200px)";
-				position: absolute;
-				top: 0;
-				left: 0;
-				background-color: red;
-				font-size:  19px;
-			}
-
-		}
 
 
 	</style>
@@ -199,8 +137,10 @@
 				background-color: red!important;
 			}
 			hgroup {
-				text-align:right;
+				text-align: right;
 				grid-area: SiteLogo;
+				transform: rotate(-1deg) scale(1.1);
+				margin-right: var(--unit-4);
 			}
 
 			.show-site-menu hgroup {
@@ -361,13 +301,12 @@
 
 			li > button {
 				display: none;
-				position: absolute;
-				right: 0;
+				position: relative;
 				background: top left no-repeat;
 				background-image: url(/libraries/images/opened-icon.svg);
-				width: 24px;
-				height: 24px;
-				/*text-indent: -50000px;*/
+				width: var(--unit-4);
+				height: var(--unit-4);
+				font-size: 0;
 				background-size: contain;
 				border: none;
 				opacity: 0.5;
@@ -448,6 +387,111 @@
 				justify-self: center;
 			}
 
+
+			@media only screen and (min-width: 768px) {
+				hgroup {
+					text-align: left;
+					transform: rotate(-1deg) scale(1.2);
+
+				}
+
+				#wrapper {
+					display: grid;
+					grid-template-rows: min-content;
+					grid-template-columns: min-content 1fr;
+					grid-template-areas: "SiteLogo SiteMenu .";
+					grid-row-gap: var(--unit-2);
+
+
+				}
+
+				.bread-crumbs {
+					display: none;
+				}
+
+				#toggle-menu {
+					display: none;
+				}
+				#rootNav {
+					display: grid;
+				}
+
+				#rootNav > ol {
+					grid-template-columns: 1fr;
+					grid-template-rows: min-content;
+					grid-gap: var(--unit-4);
+				}
+
+				#rootNav ol[data-level="2"] {
+					display: none;
+					position: absolute;
+					padding: var(--unit-4) var(--unit-4);
+					background: rgb(241 239 240 / 85%);
+					min-width: max-content;
+				}
+
+				#rootNav li:hover ol[data-level="2"] {
+					display: block;
+					z-index: 10;
+				}
+
+				li[data-submenu="true"] > button {
+					display: block;
+					float: right;
+				}
+
+				ol[data-level="3"] {
+					display: block;
+				}
+
+				
+				
+
+			}
+
+
+			
+			@media only screen and (min-width: 1200px) {
+
+
+				#wrapper {
+					display: grid;
+					grid-template-rows: 1fr;
+					grid-row-gap: var(--unit-6);
+				    grid-template-columns: min-content;
+			        grid-template-areas: 	"SiteLogo"
+			        						"SiteMenu";
+				}
+
+				h1,
+				h2 {
+					display: block;
+					text-align: left;
+				}
+
+				#rootNav {
+					justify-self: start;
+					width: 100%;
+				}
+
+				#rootNav > ol {
+					grid-auto-flow: initial;
+					justify-self: start;
+					width: 100%;
+				}
+
+				#rootNav ol[data-level="2"] {
+					display: block;
+					position: relative;
+					padding: 0;
+					max-width: 100%;
+				}
+
+				hgroup {
+					transform: rotate(-2deg) scale(1.2);
+				}
+
+			}
 			
 
 			
@@ -705,6 +749,8 @@
 			img {
 				width: 100%;
 				box-shadow:  rgb(50 50 50 / 23%) -3px 2px 9px 0px;
+				box-shadow: rgb(50 50 50 / 23%) 8px 8px 20px 0px;
+				box-shadow: rgb(50 50 50 / 24%) 3px 4px 3px 0px;
 				grid-area:  Image;
 			}
 
@@ -992,6 +1038,27 @@
 				grid-template-rows: auto;
 				grid-row-gap: var(--unit-4);
 				margin:  0;
+			}
+
+
+			
+
+			@media only screen and (min-width: 768px) {
+				#wrapper {
+					display: grid;
+					grid-template-columns: 3fr 2fr;
+					grid-template-rows: var(--unit-2) repeat(5, min-content);
+
+					grid-template-areas: 	"Image		."
+					"Image		Hgroup"
+					"Image		Description"
+					"Image		Tags"
+					"Image		."
+					"Gallery	Gallery";
+					grid-column-gap: var(--unit-6);
+					grid-row-gap: var(--unit-4);
+				}
+
 			}
 
 			
@@ -1324,6 +1391,21 @@
 				grid-row-gap: var(--unit-6);
 			}
 
+
+			@media only screen and (min-width: 768px) {
+				#rootNav > ol {
+					display: grid;
+					grid-template-columns: repeat(3, 1fr);
+					grid-column-gap: var(--unit-6);
+					grid-row-gap: var(--unit-6);
+				}
+
+				
+
+			}
+
+			
+
 			
 
 		</script>
@@ -1552,7 +1634,6 @@
 				". Main ."
 				". Footer .";
 				grid-row-gap: var(--unit-4);
-				max-width: 1700px;
 				margin: 0 auto;
 			}
 
@@ -1640,7 +1721,104 @@
 			}
 
 		
+/* Extra small devices (phones, 600px and down) */
+		@media only screen and (max-width: 600px) {
+			body::before {
+				content: "A ::: (max-width: 600px)";
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: red;
+				font-size:  19px;
+			}
+		}
 
+		/* Small devices (portrait tablets and large phones, 600px and up) */
+		@media only screen and (min-width: 600px) {
+			body::before {
+				content: "B ::: (min-width: 600px)";
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: red;
+				font-size:  19px;
+			}
+
+			body {
+				grid-template-columns: var(--unit-8) 1fr var(--unit-8);
+
+			}
+
+		}
+
+		/* Medium devices (landscape tablets, 768px and up) */
+		@media only screen and (min-width: 768px) {
+			body::before {
+				content: "C ::: (min-width: 768px)";
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: red;
+				font-size:  19px;
+			}
+
+			:root {
+				--font-size-site:  1.75rem;
+				--font-size-subsite:  1.05rem;
+				--base-font-size: 19px;
+			}
+
+			body {
+				max-width:  988px;
+				grid-template-columns:  var(--unit-16) 1fr var(--unit-16);
+			}
+
+		}
+
+		/* Large devices (laptops/desktops, 992px and up) */
+		@media only screen and (min-width: 992px) {
+			body::before {
+				content: "D ::: (min-width: 992px)";
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: red;
+				font-size:  19px;
+			}
+
+		}
+
+		/* Extra large devices (large laptops and desktops, 1200px and up) */
+		@media only screen and (min-width: 1200px) {
+			body::before {
+				content: "E ::: (min-width: 1200px)";
+				position: absolute;
+				top: 0;
+				left: 0;
+				background-color: red;
+				font-size:  19px;
+			}
+
+			body {
+				display: grid;
+				grid-template-columns: 1fr min-content 10fr 1fr;
+				grid-template-rows: var(--unit-8) min-content min-content;
+				grid-template-areas: 	". . 		. 		."
+										". Header 	Main 	."
+										". Header 	Footer 	.";
+				grid-column-gap: var(--unit-8);
+				max-width: 1700px;
+				margin:  0 auto;
+			}
+
+			:root {
+				--font-size-site:  3.7rem;
+				--font-size-subsite:  2rem;
+			}
+
+
+
+		}
 		
 
 		</style>
@@ -1997,7 +2175,7 @@
 							page: "contactme",
 						},
 						{
-							label: "Curriculum Vitae",
+							label: "CV",
 							url: "/me/curriculum-vitae",
 							page: "curriculumvitae",
 						}]
